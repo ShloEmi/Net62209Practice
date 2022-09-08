@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace TestProjectExample
 {
-    public class SpecificClassTests
+    public class ExampleClassTests
     {
         [Test, Ignore("Because ignored")]
         public void Test__TestIgnored__Ignore__ExpectedTestNotRunning() => 
@@ -12,7 +12,9 @@ namespace TestProjectExample
         [Test]
         public void Test__TestPass__Nothing__ExpectedPass()
         {
-            true.Should().Be(true);
+            true
+                .Should()
+                .Be(true);
         }
     }
 }

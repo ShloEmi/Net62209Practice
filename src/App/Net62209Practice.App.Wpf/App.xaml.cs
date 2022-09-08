@@ -20,11 +20,13 @@ public partial class App
 
     private static void Register(StartupEventArgs args)
     {
-        using IHost host = Host.CreateDefaultBuilder(args.Args)
+        using IHost host = Host
+            .CreateDefaultBuilder(args.Args)
             .ConfigureServices((_, services) =>
                 services.AddTransient<TransientDisposable>()
                     .AddScoped<ScopedDisposable>()
-                    .AddSingleton<SingletonDisposable>()).Build();
+                    .AddSingleton<SingletonDisposable>())
+            .Build();
     }
 }
 
