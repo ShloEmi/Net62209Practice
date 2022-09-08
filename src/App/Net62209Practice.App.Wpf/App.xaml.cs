@@ -1,48 +1,32 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
+using Net62209Practice.BL.Bootstrapping;
 using System.Windows;
 
 namespace Net62209Practice.App.Wpf;
 
 public partial class App
 {
-    private void Bootstrapper(object sender, StartupEventArgs args)
-    {
-        Register(args);
+    private IHost host;
 
-        ShowMainUi();
+
+    protected override async void OnStartup(StartupEventArgs args)
+    {
+        host = CreateHost(args);
+
+        await host.StartAsync(); /* TODO: Shlomi, why?? */
+
+        var mainWindow = host.Services.GetRequiredService<MainWindow>();
+        mainWindow.Show();
+
+        base.OnStartup(args);
     }
 
-
-    private static void ShowMainUi() => 
-        new MainWindow().Show();
-
-    private static void Register(StartupEventArgs args)
+    private static IHost CreateHost(StartupEventArgs args)
     {
-        using IHost host = Host
-            .CreateDefaultBuilder(args.Args)
-            .ConfigureServices((_, services) =>
-                services.AddTransient<TransientDisposable>()
-                    .AddScoped<ScopedDisposable>()
-                    .AddSingleton<SingletonDisposable>())
-            .Build();
+        IHostBuilder hostBuilder = Bootstrapper.Register(args.Args);
+        hostBuilder.ConfigureServices((_, services) => services.AddSingleton<MainWindow>());
+
+        return hostBuilder.Build();
     }
-}
-
-
-
-public sealed class TransientDisposable : IDisposable
-{
-    public void Dispose() => Console.WriteLine($"{nameof(TransientDisposable)}.Dispose()");
-}
-
-public sealed class ScopedDisposable : IDisposable
-{
-    public void Dispose() => Console.WriteLine($"{nameof(ScopedDisposable)}.Dispose()");
-}
-
-public sealed class SingletonDisposable : IDisposable
-{
-    public void Dispose() => Console.WriteLine($"{nameof(SingletonDisposable)}.Dispose()");
 }
