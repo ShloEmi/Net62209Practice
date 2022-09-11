@@ -27,7 +27,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{CA1002CC-0DE8-44CB-9A9F-FBC7C6B3F2A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net62209Practice.Data.ApplicationData", "Net62209Practice.Data.ApplicationData\Net62209Practice.Data.ApplicationData.csproj", "{9A10BC75-90FE-4FCE-93F3-13974712E33A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net62209Practice.Data.ApplicationData", "Net62209Practice.Data.ApplicationData\Net62209Practice.Data.ApplicationData.csproj", "{9A10BC75-90FE-4FCE-93F3-13974712E33A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{E2553E73-1B3E-4294-BD90-BFE3B3D9240C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
