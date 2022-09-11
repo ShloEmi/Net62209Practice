@@ -17,6 +17,7 @@ public partial class App
 
         await host.StartAsync(); /* TODO: Shlomi, why?? */
 
+        /* TODO: Shlomi, see https://www.youtube.com/watch?v=dLR_D2IJE1M&t=894s&ab_channel=IAmTimCorey */
         var mainWindow = host.Services.GetRequiredService<MainWindow>(); /* TODO: Shlomi, use the UI framework to hot-wire the View and the VM */
         mainWindow.DataContext = host.Services.GetRequiredService<MainWindowViewModel>();
 
