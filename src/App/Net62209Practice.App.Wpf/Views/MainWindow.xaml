@@ -52,7 +52,7 @@
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
                 <Label>Theme</Label>
-                <ComboBox ItemsSource="{Binding AvailableThemes}" SelectedValue="{Binding ThemeSelectedItem, Mode=TwoWay }" />
+                <ComboBox ItemsSource="{Binding AvailableThemes}" SelectedValue="{Binding ThemeSelectedItem, Mode=TwoWay}" />
             </ToolBar>
         </ToolBarTray>
         <TextBox AcceptsReturn="True" />
