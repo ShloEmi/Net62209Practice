@@ -1,24 +1,23 @@
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace TestProjectExample
+namespace TestProjectExample;
+
+public class ExampleClassTests
 {
-    public class ExampleClassTests
+    /* TODO: This is an example development leftover */
+    // REMARK: This is an example remark leftover
+
+
+    [Test, Ignore("Because ignored")]
+    public void Test__TestIgnored__Ignore__ExpectedTestNotRunning() => 
+        false.Should().Be(true);
+
+    [Test]
+    public void Test__TestPass__Nothing__ExpectedPass()
     {
-        /* TODO: This is an example development leftover */
-        // REMARK: This is an example remark leftover
-
-
-        [Test, Ignore("Because ignored")]
-        public void Test__TestIgnored__Ignore__ExpectedTestNotRunning() => 
-            false.Should().Be(true);
-
-        [Test]
-        public void Test__TestPass__Nothing__ExpectedPass()
-        {
-            true
-                .Should()
-                .Be(true);
-        }
+        true
+            .Should()
+            .Be(true);
     }
 }
