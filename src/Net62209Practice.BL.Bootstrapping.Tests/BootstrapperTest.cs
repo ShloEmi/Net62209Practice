@@ -1,5 +1,8 @@
+using System.IO.Abstractions;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Net62209Practice.Tests.Core;
 using NUnit.Framework;
 
 namespace Net62209Practice.BL.Bootstrapping.Tests;
@@ -39,9 +42,13 @@ public class BootstrapperTest
     }
 
 
-    [Test]
-    public void Test1()
+    [Test, Category(TestCategory.MustPass)]
+    public void Test__Register__GetRequiredService_FileSystem__Expected_fileSystem_ShouldNotBeNull()
     {
-        Assert.Pass();
+        IHostBuilder hostBuilder = Bootstrapper.Register(null);
+        IHost uut = hostBuilder.Build();
+
+        var fileSystem = uut.Services.GetRequiredService<IFileSystem>();
+        fileSystem.Should().NotBeNull();
     }
 }

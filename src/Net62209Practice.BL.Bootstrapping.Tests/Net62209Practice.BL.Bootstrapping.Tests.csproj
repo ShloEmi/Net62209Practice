@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Net62209Practice.BL.Bootstraping\Net62209Practice.BL.Bootstrapping.csproj" />
+    <ProjectReference Include="..\Net62209Practice.Tests.Core\Net62209Practice.Tests.Core.csproj" />
   </ItemGroup>
 
 </Project>
