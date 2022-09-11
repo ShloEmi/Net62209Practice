@@ -1,11 +1,17 @@
-﻿using System.Windows;
+﻿using ControlzEx.Theming;
+using System.Windows;
 
 namespace Net62209Practice.App.Wpf;
 
 public partial class MainWindow
 {
-    public MainWindow() => 
+    public MainWindow()
+    {
         InitializeComponent();
+
+        ThemeManager.Current.ThemeSyncMode = ThemeSyncMode.SyncWithAppMode;
+        ThemeManager.Current.SyncTheme();
+    }
 
 
     private void LaunchGitHubSite(object sender, RoutedEventArgs e)

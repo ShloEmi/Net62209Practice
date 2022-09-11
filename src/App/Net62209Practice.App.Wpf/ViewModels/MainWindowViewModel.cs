@@ -1,25 +1,38 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using ControlzEx.Theming;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
 
 namespace Net62209Practice.App.Wpf.ViewModels;
 
-public class MainWindowViewModel : INotifyPropertyChanged
+public class MainWindowViewModel : ViewModelBase
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
+    private string themeSelectedItem;
+    private ObservableCollection<string> availableThemes = new();
 
 
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null) => 
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-
-    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    public MainWindowViewModel()
     {
-        if (EqualityComparer<T>.Default.Equals(field, value)) 
-            return false;
+        availableThemes.Add("light.blue");
+        availableThemes.Add("dark.blue");
 
-        field = value;
-        OnPropertyChanged(propertyName);
-        return true;
+        themeSelectedItem = availableThemes.First();
+    }
+
+
+    public string ThemeSelectedItem
+    {
+        get => themeSelectedItem;
+        set
+        {
+            if (SetField(ref themeSelectedItem, value))
+                ThemeManager.Current.ChangeTheme(Application.Current, themeSelectedItem);
+        }
+    }
+    
+    public ObservableCollection<string> AvailableThemes
+    {
+        get => availableThemes;
+        set => SetField(ref availableThemes, value);
     }
 }

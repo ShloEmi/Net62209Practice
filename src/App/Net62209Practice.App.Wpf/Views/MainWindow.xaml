@@ -6,9 +6,12 @@
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Net62209Practice.App.Wpf.ViewModels"
     Title="MainWindow"
     Width="800"
     Height="450"
+    d:DataContext="{d:DesignInstance {x:Type viewModels:MainWindowViewModel},
+                                     IsDesignTimeCreatable=True}"
     mc:Ignorable="d">
 
     <mah:MetroWindow.LeftWindowCommands>
@@ -49,10 +52,7 @@
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
                 <Label>Theme</Label>
-                <ComboBox>
-                    <ComboBoxItem IsSelected="True">dark.blue</ComboBoxItem>
-                    <ComboBoxItem>light.blue</ComboBoxItem>
-                </ComboBox>
+                <ComboBox ItemsSource="{Binding AvailableThemes}" SelectedValue="{Binding ThemeSelectedItem, Mode=TwoWay}" />
             </ToolBar>
         </ToolBarTray>
         <TextBox AcceptsReturn="True" />
