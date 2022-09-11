@@ -25,7 +25,7 @@ public partial class App
     private static IHost CreateHost(StartupEventArgs args)
     {
         IHostBuilder hostBuilder = Bootstrapper.Register(args.Args);
-        hostBuilder.ConfigureServices((_, services) => services.AddSingleton<MainWindow>());
+        hostBuilder.ConfigureServices((_, services) => services.AddSingleton<MainWindow>()); /* TODO: Shlomi, how to register ViewModel -> View? */
 
         return hostBuilder.Build();
     }

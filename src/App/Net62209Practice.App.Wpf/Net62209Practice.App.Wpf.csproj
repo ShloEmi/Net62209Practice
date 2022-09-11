@@ -20,4 +20,8 @@
     <ProjectReference Include="..\..\Net62209Practice.BL.Bootstraping\Net62209Practice.BL.Bootstrapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>

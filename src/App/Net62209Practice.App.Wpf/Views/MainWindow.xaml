@@ -3,9 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     Title="MainWindow"
     Width="800"
     Height="450"
@@ -14,9 +14,10 @@
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands>
             <Button Click="LaunchGitHubSite" ToolTip="Open up the GitHub site">
-                <iconPacks:PackIconModern Width="22"
-                                          Height="22"
-                                          Kind="SocialGithubOctocat" />
+                <iconPacks:PackIconModern
+                    Width="22"
+                    Height="22"
+                    Kind="SocialGithubOctocat" />
             </Button>
         </mah:WindowCommands>
     </mah:MetroWindow.LeftWindowCommands>
@@ -27,13 +28,15 @@
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconModern Width="22"
-                                                      Height="22"
-                                                      VerticalAlignment="Center"
-                                                      Kind="FoodCupcake" />
-                            <TextBlock Margin="4 0 0 0"
-                                       VerticalAlignment="Center"
-                                       Text="{Binding}" />
+                            <iconPacks:PackIconModern
+                                Width="22"
+                                Height="22"
+                                VerticalAlignment="Center"
+                                Kind="FoodCupcake" />
+                            <TextBlock
+                                Margin="4,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding}" />
                         </StackPanel>
                     </DataTemplate>
                 </Button.ContentTemplate>
@@ -42,6 +45,18 @@
     </mah:MetroWindow.RightWindowCommands>
 
 
-    <Grid />
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Label>Theme</Label>
+                <ComboBox>
+                    <ComboBoxItem IsSelected="True">dark.blue</ComboBoxItem>
+                    <ComboBoxItem>light.blue</ComboBoxItem>
+                </ComboBox>
+            </ToolBar>
+        </ToolBarTray>
+        <TextBox AcceptsReturn="True" />
+    </DockPanel>
+
 
 </mah:MetroWindow>
