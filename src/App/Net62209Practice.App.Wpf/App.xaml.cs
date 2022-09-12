@@ -1,15 +1,30 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Net62209Practice.BL.Bootstrapping;
-using System.Windows;
 using Net62209Practice.App.Wpf.ViewModels;
+using Net62209Practice.BL.Bootstrapping;
+using NoNameCompany.Extensions.DependencyInjection;
+using System.Windows;
+using Net62209Practice.App.Wpf.Views;
 
 namespace Net62209Practice.App.Wpf;
 
 public partial class App
 {
-    private IHost host;
+    private IHost host; /* TODO: Shlomi, why warning here? */
 
+
+    private static IHost CreateHost(StartupEventArgs args)
+    {
+        IHostBuilder register = Bootstrapper
+            .Register(args.Args);
+        IHostBuilder hostBuilder = register
+            .ConfigureServices((_, services) =>
+            {
+                services.AddSingletonView<MainWindowViewModel, MainWindow>();
+            });
+
+        return hostBuilder.Build();
+    }
 
     protected override async void OnStartup(StartupEventArgs args)
     {
@@ -17,21 +32,8 @@ public partial class App
 
         await host.StartAsync(); /* TODO: Shlomi, why?? */
 
-        /* TODO: Shlomi, see https://www.youtube.com/watch?v=dLR_D2IJE1M&t=894s&ab_channel=IAmTimCorey */
-        var mainWindow = host.Services.GetRequiredService<MainWindow>(); /* TODO: Shlomi, use the UI framework to hot-wire the View and the VM */
-        mainWindow.DataContext = host.Services.GetRequiredService<MainWindowViewModel>();
-
-        mainWindow.Show();
+        host.Services.GetView<MainWindowViewModel, MainWindow>().Show();
 
         base.OnStartup(args);
-    }
-
-    private static IHost CreateHost(StartupEventArgs args)
-    {
-        IHostBuilder hostBuilder = Bootstrapper.Register(args.Args);
-        hostBuilder.ConfigureServices((_, services) => services.AddSingleton<MainWindowViewModel>());
-        hostBuilder.ConfigureServices((_, services) => services.AddSingleton<MainWindow>()); /* TODO: Shlomi, how to register ViewModel -> View? */
-
-        return hostBuilder.Build();
     }
 }

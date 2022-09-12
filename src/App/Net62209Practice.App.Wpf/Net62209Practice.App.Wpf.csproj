@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Net62209Practice.BL.Bootstraping\Net62209Practice.BL.Bootstrapping.csproj" />
+    <ProjectReference Include="..\..\NoNameCompany.Extensions.DependencyInjection\NoNameCompany.Extensions.DependencyInjection.csproj" />
   </ItemGroup>
 
   <ItemGroup>

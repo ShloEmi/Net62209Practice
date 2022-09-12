@@ -1,7 +1,7 @@
 ﻿using ControlzEx.Theming;
 using System.Windows;
 
-namespace Net62209Practice.App.Wpf;
+namespace Net62209Practice.App.Wpf.Views;
 
 public partial class MainWindow
 {

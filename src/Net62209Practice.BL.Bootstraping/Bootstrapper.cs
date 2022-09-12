@@ -4,16 +4,18 @@ using System.IO.Abstractions;
 
 namespace Net62209Practice.BL.Bootstrapping;
 
-public class Bootstrapper
+public static class Bootstrapper
 {
     public static IHostBuilder Register(string[] args)
     {
-        IHostBuilder builder = Host
+        IHostBuilder defaultBuilder = Host
             .CreateDefaultBuilder(args);
+        IHostBuilder hostBuilder = defaultBuilder
+            .ConfigureServices((_, services) =>
+            {
+                services.AddSingleton<IFileSystem, FileSystem>();
+            });
 
-        IHostBuilder configureServices = builder
-            .ConfigureServices((_, services) => services.AddSingleton<IFileSystem, FileSystem>());
-
-        return configureServices;
+        return hostBuilder;
     }
 }
