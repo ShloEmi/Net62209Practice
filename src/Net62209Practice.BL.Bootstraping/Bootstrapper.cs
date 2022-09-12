@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.IO.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.IO.Abstractions;
 
-namespace Net62209Practice.BL.Bootstrapping;
+namespace NoNameCompany.IMS.BL.Bootstrapping;
 
 public static class Bootstrapper
 {

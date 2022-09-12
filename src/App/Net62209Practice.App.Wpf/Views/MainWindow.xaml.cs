@@ -1,8 +1,8 @@
-﻿using ControlzEx.Theming;
-using Net62209Practice.App.Wpf.ViewModels;
-using System.Windows;
+﻿using System.Windows;
+using ControlzEx.Theming;
+using NoNameCompany.IMS.App.Wpf.ViewModels;
 
-namespace Net62209Practice.App.Wpf.Views;
+namespace NoNameCompany.IMS.App.Wpf.Views;
 
 public partial class MainWindow
 {

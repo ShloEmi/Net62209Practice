@@ -18,8 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Net62209Practice.BL.Bootstraping\Net62209Practice.BL.Bootstrapping.csproj" />
-    <ProjectReference Include="..\Net62209Practice.Tests.Core\Net62209Practice.Tests.Core.csproj" />
+    <ProjectReference Include="..\Net62209Practice.BL.Bootstraping\NoNameCompany.IMS.BL.Bootstrapping.csproj" />
+    <ProjectReference Include="..\Net62209Practice.Tests.Core\NoNameCompany.IMS.Tests.Core.csproj" />
   </ItemGroup>
 
 </Project>

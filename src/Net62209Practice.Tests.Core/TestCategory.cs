@@ -1,4 +1,4 @@
-namespace Net62209Practice.Tests.Core;
+namespace NoNameCompany.IMS.Tests.Core;
 
 public static class TestCategory
 {

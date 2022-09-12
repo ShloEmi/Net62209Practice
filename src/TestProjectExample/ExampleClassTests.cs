@@ -1,7 +1,7 @@
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace TestProjectExample;
+namespace NoNameCompany.TestProjectExample;
 
 public class ExampleClassTests
 {

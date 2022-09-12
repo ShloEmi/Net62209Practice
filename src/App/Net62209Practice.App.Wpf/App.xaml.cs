@@ -1,11 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Net62209Practice.App.Wpf.ViewModels;
-using Net62209Practice.App.Wpf.Views;
-using Net62209Practice.BL.Bootstrapping;
-using System.Windows;
+using NoNameCompany.IMS.App.Wpf.ViewModels;
+using NoNameCompany.IMS.App.Wpf.Views;
+using NoNameCompany.IMS.BL.Bootstrapping;
 
-namespace Net62209Practice.App.Wpf;
+namespace NoNameCompany.IMS.App.Wpf;
 
 public partial class App
 {

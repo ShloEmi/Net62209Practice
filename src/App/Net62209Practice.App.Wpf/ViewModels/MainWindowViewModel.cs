@@ -1,9 +1,9 @@
-﻿using ControlzEx.Theming;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using ControlzEx.Theming;
 
-namespace Net62209Practice.App.Wpf.ViewModels;
+namespace NoNameCompany.IMS.App.Wpf.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {

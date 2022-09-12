@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{7C76BCB2-7B5D-43DE-9525-5340F2962A51}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net62209Practice.App.Wpf", "App\Net62209Practice.App.Wpf\Net62209Practice.App.Wpf.csproj", "{723662BF-464F-481E-868F-3AA72C83890F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoNameCompany.IMS.App.Wpf", "App\Net62209Practice.App.Wpf\NoNameCompany.IMS.App.Wpf.csproj", "{723662BF-464F-481E-868F-3AA72C83890F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BL", "BL", "{F1353793-3977-48A3-B45A-BE8DD6252AEE}"
 EndProject
@@ -15,19 +15,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{EE4419A9-0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{63FB4A32-6590-41F7-A610-86A29983B650}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProjectExample", "TestProjectExample\TestProjectExample.csproj", "{CEF2649C-355F-4F74-90E7-BFFBEE74D0AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoNameCompany.TestProjectExample", "TestProjectExample\NoNameCompany.TestProjectExample.csproj", "{CEF2649C-355F-4F74-90E7-BFFBEE74D0AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net62209Practice.BL.Bootstrapping", "Net62209Practice.BL.Bootstraping\Net62209Practice.BL.Bootstrapping.csproj", "{8955F4F1-BF4E-4D41-B017-261D773419F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoNameCompany.IMS.BL.Bootstrapping", "Net62209Practice.BL.Bootstraping\NoNameCompany.IMS.BL.Bootstrapping.csproj", "{8955F4F1-BF4E-4D41-B017-261D773419F4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net62209Practice.BL.Bootstrapping.Tests", "Net62209Practice.BL.Bootstrapping.Tests\Net62209Practice.BL.Bootstrapping.Tests.csproj", "{C300C2A7-EFB8-4206-A754-FC8FCCA1322A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoNameCompany.IMS.BL.Bootstrapping.Tests", "Net62209Practice.BL.Bootstrapping.Tests\NoNameCompany.IMS.BL.Bootstrapping.Tests.csproj", "{C300C2A7-EFB8-4206-A754-FC8FCCA1322A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net62209Practice.Tests.Core", "Net62209Practice.Tests.Core\Net62209Practice.Tests.Core.csproj", "{2C37A417-4044-4880-ACB7-2915976E6BB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoNameCompany.IMS.Tests.Core", "Net62209Practice.Tests.Core\NoNameCompany.IMS.Tests.Core.csproj", "{2C37A417-4044-4880-ACB7-2915976E6BB6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{F4A6BEBD-4AE4-46E4-8E3C-EF57C5D3A969}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{CA1002CC-0DE8-44CB-9A9F-FBC7C6B3F2A6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net62209Practice.Data.ApplicationData", "Net62209Practice.Data.ApplicationData\Net62209Practice.Data.ApplicationData.csproj", "{9A10BC75-90FE-4FCE-93F3-13974712E33A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoNameCompany.IMS.Data.ApplicationData", "Net62209Practice.Data.ApplicationData\NoNameCompany.IMS.Data.ApplicationData.csproj", "{9A10BC75-90FE-4FCE-93F3-13974712E33A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{E2553E73-1B3E-4294-BD90-BFE3B3D9240C}"
 EndProject

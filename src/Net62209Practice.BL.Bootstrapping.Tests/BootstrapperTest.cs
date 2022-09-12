@@ -1,11 +1,11 @@
+using System.IO.Abstractions;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Net62209Practice.Tests.Core;
+using NoNameCompany.IMS.Tests.Core;
 using NUnit.Framework;
-using System.IO.Abstractions;
 
-namespace Net62209Practice.BL.Bootstrapping.Tests;
+namespace NoNameCompany.IMS.BL.Bootstrapping.Tests;
 
 public class BootstrapperTest
 {
