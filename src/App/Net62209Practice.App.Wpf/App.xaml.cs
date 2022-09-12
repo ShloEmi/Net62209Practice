@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Net62209Practice.App.Wpf.ViewModels;
-using Net62209Practice.BL.Bootstrapping;
-using NoNameCompany.Extensions.DependencyInjection;
-using System.Windows;
 using Net62209Practice.App.Wpf.Views;
+using Net62209Practice.BL.Bootstrapping;
+using System.Windows;
 
 namespace Net62209Practice.App.Wpf;
 
@@ -15,12 +14,12 @@ public partial class App
 
     private static IHost CreateHost(StartupEventArgs args)
     {
-        IHostBuilder register = Bootstrapper
-            .Register(args.Args);
-        IHostBuilder hostBuilder = register
+        IHostBuilder hostBuilder = Bootstrapper
+            .CreateHostBuilder(args.Args)
             .ConfigureServices((_, services) =>
             {
-                services.AddSingletonView<MainWindowViewModel, MainWindow>();
+                services.AddSingleton<MainWindowViewModel>();
+                services.AddSingleton<MainWindow>();
             });
 
         return hostBuilder.Build();
@@ -32,7 +31,7 @@ public partial class App
 
         await host.StartAsync(); /* TODO: Shlomi, why?? */
 
-        host.Services.GetView<MainWindowViewModel, MainWindow>().Show();
+        host.Services.GetService<MainWindow>()!.Show();
 
         base.OnStartup(args);
     }

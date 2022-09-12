@@ -1,13 +1,16 @@
 ﻿using ControlzEx.Theming;
+using Net62209Practice.App.Wpf.ViewModels;
 using System.Windows;
 
 namespace Net62209Practice.App.Wpf.Views;
 
 public partial class MainWindow
 {
-    public MainWindow()
+    public MainWindow(MainWindowViewModel mainWindowViewModel)
     {
         InitializeComponent();
+
+        DataContext = mainWindowViewModel;
 
         ThemeManager.Current.ThemeSyncMode = ThemeSyncMode.SyncWithAppMode;
         ThemeManager.Current.SyncTheme();

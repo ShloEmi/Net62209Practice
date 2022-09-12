@@ -6,11 +6,10 @@ namespace Net62209Practice.BL.Bootstrapping;
 
 public static class Bootstrapper
 {
-    public static IHostBuilder Register(string[] args)
+    public static IHostBuilder CreateHostBuilder(string[] args)
     {
-        IHostBuilder defaultBuilder = Host
-            .CreateDefaultBuilder(args);
-        IHostBuilder hostBuilder = defaultBuilder
+        IHostBuilder hostBuilder = Host
+            .CreateDefaultBuilder(args)
             .ConfigureServices((_, services) =>
             {
                 services.AddSingleton<IFileSystem, FileSystem>();

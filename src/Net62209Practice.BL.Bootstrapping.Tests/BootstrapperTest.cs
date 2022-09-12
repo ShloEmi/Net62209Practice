@@ -28,7 +28,7 @@ public class BootstrapperTest
     [Test]
     public void Test__Register__nullArgs__Expected_UUT_ShouldNotBeNull()
     {
-        IHostBuilder uut = Bootstrapper.Register(null);
+        IHostBuilder uut = Bootstrapper.CreateHostBuilder(null);
 
         uut.Should().NotBeNull();
     }
@@ -36,7 +36,7 @@ public class BootstrapperTest
     [Test]
     public void Test__Register__ArrayEmpty_string_Args__Expected_UUT_ShouldNotBeNull()
     {
-        IHostBuilder uut = Bootstrapper.Register(Array.Empty<string>());
+        IHostBuilder uut = Bootstrapper.CreateHostBuilder(Array.Empty<string>());
 
         uut.Should().NotBeNull();
     }
@@ -45,10 +45,10 @@ public class BootstrapperTest
     [Test, Category(TestCategory.MustPass)]
     public void Test__Register__GetRequiredService_FileSystem__Expected_fileSystem_ShouldNotBeNull()
     {
-        IHostBuilder hostBuilder = Bootstrapper.Register(null);
+        IHostBuilder hostBuilder = Bootstrapper.CreateHostBuilder(null);
         IHost uut = hostBuilder.Build();
 
-        var fileSystem = uut.Services.GetRequiredService<IFileSystem>();
+        var fileSystem = uut.Services.GetService<IFileSystem>();
         fileSystem.Should().NotBeNull();
     }
 }
