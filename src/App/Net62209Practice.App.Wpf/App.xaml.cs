@@ -10,7 +10,7 @@ namespace NoNameCompany.IMS.App.Wpf;
 public partial class App
 {
     private IHost host; /* TODO: Shlomi, why warning here? */
-
+    /* TODO: Shlomi, Interface / abstract logging, DI and other concrete technologies! */
 
     private static IHost CreateHost(StartupEventArgs args)
     {
