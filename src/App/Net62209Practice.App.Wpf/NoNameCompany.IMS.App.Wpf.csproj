@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
@@ -19,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Net62209Practice.BL.Bootstraping\NoNameCompany.IMS.BL.Bootstrapping.csproj" />
+    <ProjectReference Include="..\..\Net62209Practice.Data.ApplicationData\NoNameCompany.IMS.Data.ApplicationData.csproj" />
   </ItemGroup>
 
   <ItemGroup>

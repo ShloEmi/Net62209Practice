@@ -56,7 +56,23 @@
             </ToolBar>
         </ToolBarTray>
         <TextBox AcceptsReturn="True" />
-    </DockPanel>
 
+        <WrapPanel>
+            <!--  DockPanel.Dock=CENTER  -->
+            <Button
+                Command="{Binding AddItemsCommand}"
+                CommandParameter="1"
+                Content="Add 1 item" />
+            <Button
+                Command="{Binding AddItemsCommand}"
+                CommandParameter="10"
+                Content="Add 10 item" />
+            <Button
+                Command="{Binding AddItemsCommand}"
+                CommandParameter="100"
+                Content="Add 100 item" />
+        </WrapPanel>
+
+    </DockPanel>
 
 </mah:MetroWindow>
