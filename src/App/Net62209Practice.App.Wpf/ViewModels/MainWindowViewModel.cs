@@ -56,7 +56,7 @@ public class MainWindowViewModel : ViewModelBase
 
     private void AddItemsExecute(int count)
     {
-        dataAccessLayer.AddItemsBulk(Enumerable.Range(1, count).Select(i => itemDataFaker!.Generate()).ToArray());
+        dataAccessLayer.AddItemsBulk(Enumerable.Range(1, count).Select(_ => itemDataFaker!.Generate()).ToArray());
     }
 
     private bool AddItemsCanExecute(int count) => 

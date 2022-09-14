@@ -8,6 +8,5 @@ public static class SQLiteModule
     public static void RegisterSQLite3(this IServiceCollection services)
     {
         services.AddTransient<IDAL, SQLite3DAL>();
-        services.AddTransient<IDALConnectionString, SQLite3ConnectionString>( /* TODO: Shlomi, which one? */);
     }
 }
