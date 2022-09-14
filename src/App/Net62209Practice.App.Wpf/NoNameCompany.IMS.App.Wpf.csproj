@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Net62209Practice.BL.Bootstraping\NoNameCompany.IMS.BL.Bootstrapping.csproj" />
     <ProjectReference Include="..\..\Net62209Practice.Data.ApplicationData\NoNameCompany.IMS.Data.ApplicationData.csproj" />
+    <ProjectReference Include="..\..\NoNameCompany.IMS.BL.DAL\NoNameCompany.IMS.BL.DAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>

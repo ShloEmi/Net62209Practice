@@ -1,9 +1,9 @@
 ﻿using Bogus;
 using CommunityToolkit.Mvvm.Input;
 using ControlzEx.Theming;
+using NoNameCompany.IMS.BL.DAL.Interfaces;
 using NoNameCompany.IMS.Data.ApplicationData;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -16,10 +16,9 @@ public class MainWindowViewModel : ViewModelBase
     private string themeSelectedItem;
     private ObservableCollection<string> availableThemes = new();
     private readonly ObservableCollection<ItemContainerData> itemContainerData = new();
+    private readonly Faker<ItemData>? itemDataFaker;
 
     private readonly IDAL dataAccessLayer;
-
-    private readonly Faker<ItemData>? itemDataFaker;
 
 
     /* TODO: Shlomi, register DAL! */
@@ -81,19 +80,4 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     public ICommand AddItemsCommand { get; }
-}
-
-public interface IDAL
-{
-    bool CanAddItems();
-    void AddItemsBulk(IEnumerable<ItemData> items);
-}
-
-internal class Dal : IDAL
-{
-    public bool CanAddItems() => true;
-    public void AddItemsBulk(IEnumerable<ItemData> items)
-    {
-        throw new NotImplementedException();
-    }
 }
