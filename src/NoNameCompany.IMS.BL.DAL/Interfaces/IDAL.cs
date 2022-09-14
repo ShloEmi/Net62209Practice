@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using NoNameCompany.IMS.Data.ApplicationData;
+﻿using NoNameCompany.IMS.Data.ApplicationData;
 
 namespace NoNameCompany.IMS.BL.DAL.Interfaces;
 
