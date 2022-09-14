@@ -1,7 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using ControlzEx.Theming;
+using Microsoft.Xaml.Behaviors.Core;
+using CommunityToolkit.Mvvm;
+using CommunityToolkit.Mvvm.Input;
 
 namespace NoNameCompany.IMS.App.Wpf.ViewModels;
 
