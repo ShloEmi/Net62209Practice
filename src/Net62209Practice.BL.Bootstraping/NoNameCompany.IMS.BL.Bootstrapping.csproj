@@ -12,4 +12,9 @@
     <PackageReference Include="System.IO.Abstractions" Version="17.2.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NoNameCompany.IMS.BL.DAL.Sqlite\NoNameCompany.IMS.BL.DAL.SQLite.csproj" />
+    <ProjectReference Include="..\NoNameCompany.IMS.BL.DAL\NoNameCompany.IMS.BL.DAL.csproj" />
+  </ItemGroup>
+
 </Project>

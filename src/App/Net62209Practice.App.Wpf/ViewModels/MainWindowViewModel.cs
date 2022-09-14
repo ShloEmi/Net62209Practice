@@ -21,7 +21,6 @@ public class MainWindowViewModel : ViewModelBase
     private readonly IDAL dataAccessLayer;
 
 
-    /* TODO: Shlomi, register DAL! */
     public MainWindowViewModel(IDAL dataAccessLayer)
     {
         this.dataAccessLayer = dataAccessLayer;
@@ -55,8 +54,10 @@ public class MainWindowViewModel : ViewModelBase
     }
 
 
-    private void AddItemsExecute(int count) => 
+    private void AddItemsExecute(int count)
+    {
         dataAccessLayer.AddItemsBulk(Enumerable.Range(1, count).Select(i => itemDataFaker!.Generate()).ToArray());
+    }
 
     private bool AddItemsCanExecute(int count) => 
         dataAccessLayer.CanAddItems();
