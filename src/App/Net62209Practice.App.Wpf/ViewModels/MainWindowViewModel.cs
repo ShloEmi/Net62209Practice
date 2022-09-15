@@ -1,8 +1,10 @@
 ﻿using Bogus;
 using CommunityToolkit.Mvvm.Input;
 using ControlzEx.Theming;
+using Microsoft.Extensions.Configuration;
 using NoNameCompany.IMS.BL.DAL.Interfaces;
 using NoNameCompany.IMS.Data.ApplicationData;
+using Serilog;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -19,13 +21,29 @@ public class MainWindowViewModel : ViewModelBase
     private readonly Faker<ItemData>? itemDataFaker;
 
     private readonly IDAL dataAccessLayer;
+    private readonly ILogger logger;
+    private readonly IConfiguration configuration;
 
 
-    public MainWindowViewModel(IDAL dataAccessLayer)
+    public MainWindowViewModel(IDAL dataAccessLayer, ILogger logger, IConfiguration configuration)
     {
         this.dataAccessLayer = dataAccessLayer;
-        AddItemsCommand = new RelayCommand<object>(AddItemsExecute, AddItemsCanExecute);
+        this.logger = logger;
+        this.configuration = configuration;
 
+        AddItemsCommand = new RelayCommand<object>(
+            count =>
+            {
+                var howMuch = int.Parse(count.ToString() ?? "0");
+                this.dataAccessLayer.AddItemsBulk(
+                    Enumerable.Range(1, howMuch)
+                        .Select(_ => itemDataFaker!.Generate()).ToArray()
+                );
+            }, 
+            _ => this.dataAccessLayer.CanAddItems());
+
+
+        /* TODO: Shlomi, should be in configuration */
         availableThemes.Add("light.blue");
         availableThemes.Add("dark.blue");
 
@@ -52,19 +70,6 @@ public class MainWindowViewModel : ViewModelBase
                 }
             );
     }
-
-
-    private void AddItemsExecute(object count)
-    {
-        dataAccessLayer.AddItemsBulk(Enumerable
-            .Range(1, (int.Parse(count.ToString() ?? "0")))
-            .Select(_ => itemDataFaker!.Generate()).ToArray()
-        );
-    }
-
-    private bool AddItemsCanExecute(object count) => 
-        dataAccessLayer.CanAddItems();
-
 
 
     public string ThemeSelectedItem

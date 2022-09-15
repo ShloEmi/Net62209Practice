@@ -18,11 +18,6 @@ public partial class App
     {
         string appSettingsName = "appSettings", jsonFileExtension = "json";
 
-        //IConfiguration config = new ConfigurationBuilder()
-        //    .AddJsonFile("appSettingsName.json")
-        //    .AddEnvironmentVariables()
-        //    .Build();
-
         IHostBuilder hostBuilder = Host
             .CreateDefaultBuilder(args.Args)
             .ConfigureAppConfiguration((hostingContext, configuration) =>
@@ -32,8 +27,6 @@ public partial class App
                 configuration
                     .AddJsonFile($"{appSettingsName}.{jsonFileExtension}", true, reloadOnChange: true)
                     .AddJsonFile($"{appSettingsName}.{hostingContext.HostingEnvironment.EnvironmentName}.{jsonFileExtension}", true, reloadOnChange: true);
-
-                // IConfigurationRoot configurationRoot = configuration.Build();
             })
 
             .AddIMSServices()
@@ -44,10 +37,7 @@ public partial class App
             });
 
         host = hostBuilder.Build();
-
-        // config = host.Services.GetRequiredService<IConfiguration>();
-
-
+        
         await host.StartAsync(); /* TODO: Shlomi, why?? */
 
         host.Services.GetService<MainWindow>()!.Show();
