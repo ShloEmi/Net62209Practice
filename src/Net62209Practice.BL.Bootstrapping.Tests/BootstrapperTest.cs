@@ -9,13 +9,13 @@ namespace NoNameCompany.IMS.BL.Bootstrapping.Tests;
 
 public class BootstrapperTest
 {
-    //private Bootstrapper uut;
+    //private HostBuilderExtension uut;
 
 
     [SetUp]
     public void SetUp()
     {
-        //uut = new Bootstrapper();
+        //uut = new HostBuilderExtension();
     }
 
     [TearDown]
@@ -28,7 +28,8 @@ public class BootstrapperTest
     [Test]
     public void Test__Register__nullArgs__Expected_UUT_ShouldNotBeNull()
     {
-        IHostBuilder uut = Bootstrapper.CreateHostBuilder(null);
+        IHostBuilder uut = HostBuilderExtension.AddIMSServices(Host
+            .CreateDefaultBuilder(null));
 
         uut.Should().NotBeNull();
     }
@@ -36,7 +37,9 @@ public class BootstrapperTest
     [Test]
     public void Test__Register__ArrayEmpty_string_Args__Expected_UUT_ShouldNotBeNull()
     {
-        IHostBuilder uut = Bootstrapper.CreateHostBuilder(Array.Empty<string>());
+        string[] args = Array.Empty<string>();
+        IHostBuilder uut = HostBuilderExtension.AddIMSServices(Host
+            .CreateDefaultBuilder(args));
 
         uut.Should().NotBeNull();
     }
@@ -45,7 +48,8 @@ public class BootstrapperTest
     [Test, Category(TestCategory.MustPass)]
     public void Test__Register__GetRequiredService_FileSystem__Expected_fileSystem_ShouldNotBeNull()
     {
-        IHostBuilder hostBuilder = Bootstrapper.CreateHostBuilder(null);
+        IHostBuilder hostBuilder = HostBuilderExtension.AddIMSServices(Host
+            .CreateDefaultBuilder(null));
         IHost uut = hostBuilder.Build();
 
         var fileSystem = uut.Services.GetService<IFileSystem>();

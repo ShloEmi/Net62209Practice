@@ -24,7 +24,7 @@ public class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel(IDAL dataAccessLayer)
     {
         this.dataAccessLayer = dataAccessLayer;
-        AddItemsCommand = new RelayCommand<int>(AddItemsExecute, AddItemsCanExecute);
+        AddItemsCommand = new RelayCommand<object>(AddItemsExecute, AddItemsCanExecute);
 
         availableThemes.Add("light.blue");
         availableThemes.Add("dark.blue");
@@ -54,12 +54,15 @@ public class MainWindowViewModel : ViewModelBase
     }
 
 
-    private void AddItemsExecute(int count)
+    private void AddItemsExecute(object count)
     {
-        dataAccessLayer.AddItemsBulk(Enumerable.Range(1, count).Select(_ => itemDataFaker!.Generate()).ToArray());
+        dataAccessLayer.AddItemsBulk(Enumerable
+            .Range(1, (int.Parse(count.ToString() ?? "0")))
+            .Select(_ => itemDataFaker!.Generate()).ToArray()
+        );
     }
 
-    private bool AddItemsCanExecute(int count) => 
+    private bool AddItemsCanExecute(object count) => 
         dataAccessLayer.CanAddItems();
 
 
