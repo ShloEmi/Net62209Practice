@@ -1,35 +1,56 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Bogus" Version="34.0.2" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
-    <PackageReference Include="MahApps.Metro" Version="2.4.9" />
-    <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
-    <PackageReference Include="System.IO.Abstractions" Version="17.2.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Bogus" Version="34.0.2" />
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Net62209Practice.BL.Bootstraping\NoNameCompany.IMS.BL.Bootstrapping.csproj" />
-    <ProjectReference Include="..\..\Net62209Practice.Data.ApplicationData\NoNameCompany.IMS.Data.ApplicationData.csproj" />
-    <ProjectReference Include="..\..\NoNameCompany.IMS.BL.DAL\NoNameCompany.IMS.BL.DAL.csproj" />
-  </ItemGroup>
+		<PackageReference Include="System.IO.Abstractions" Version="17.2.1" />
 
-  <ItemGroup>
-    <Folder Include="Command\" />
-    <Folder Include="Controls\" />
-    <Folder Include="Converter\" />
-    <Folder Include="Resources\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+
+		<PackageReference Include="MahApps.Metro" Version="2.4.9" />
+		<PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
+
+
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="appSettings.Production.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<DependentUpon>appSettings.json</DependentUpon>
+		</Content>
+		<Content Include="appSettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Net62209Practice.BL.Bootstraping\NoNameCompany.IMS.BL.Bootstrapping.csproj" />
+		<ProjectReference Include="..\..\Net62209Practice.Data.ApplicationData\NoNameCompany.IMS.Data.ApplicationData.csproj" />
+		<ProjectReference Include="..\..\NoNameCompany.IMS.BL.DAL\NoNameCompany.IMS.BL.DAL.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Command\" />
+		<Folder Include="Controls\" />
+		<Folder Include="Converter\" />
+		<Folder Include="Resources\" />
+		<Folder Include="ViewModels\" />
+	</ItemGroup>
 
 </Project>
