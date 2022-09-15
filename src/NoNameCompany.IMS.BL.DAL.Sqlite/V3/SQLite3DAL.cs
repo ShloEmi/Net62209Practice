@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using NoNameCompany.IMS.BL.DAL.Interfaces;
 using NoNameCompany.IMS.Data.ApplicationData;
+using Serilog;
 using System.Text;
 
 namespace NoNameCompany.IMS.BL.DAL.SQLite.V3;
@@ -8,11 +9,14 @@ namespace NoNameCompany.IMS.BL.DAL.SQLite.V3;
 public class SQLite3DAL : IDAL
 {
     private readonly string connectionString;
+    private readonly ILogger logger;
 
 
-    public SQLite3DAL(string connectionString) => 
+    public SQLite3DAL(string connectionString, ILogger logger)
+    {
         this.connectionString = connectionString;
-
+        this.logger = logger;
+    }
 
 
     public bool CanAddItems() => true;
@@ -29,6 +33,8 @@ public class SQLite3DAL : IDAL
 
         try
         {
+            logger.Information("Try AddItemsBulk, count: {itemDatum-Count}", itemDatum.Length);
+
             using SqliteConnection connection = GetConnection();
             connection.Open();
 
@@ -51,7 +57,7 @@ public class SQLite3DAL : IDAL
         }
         catch (Exception exception)
         {
-            /* TODO: Shlomi, log me! */
+            logger.Error(exception, string.Empty);
             return false;
         }
     }

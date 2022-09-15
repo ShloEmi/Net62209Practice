@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NoNameCompany.IMS.BL.DAL.SQLite.V3.Autofac;
 using Serilog;
-using Serilog.Events;
 using System.IO.Abstractions;
 
 namespace NoNameCompany.IMS.BL.Bootstrapping;
