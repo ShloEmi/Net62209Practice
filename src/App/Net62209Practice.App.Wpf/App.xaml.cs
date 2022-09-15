@@ -5,6 +5,8 @@ using NoNameCompany.IMS.App.Wpf.ViewModels;
 using NoNameCompany.IMS.App.Wpf.Views;
 using NoNameCompany.IMS.BL.Bootstrapping;
 using System.Windows;
+using Serilog;
+using Serilog.Events;
 
 namespace NoNameCompany.IMS.App.Wpf;
 
