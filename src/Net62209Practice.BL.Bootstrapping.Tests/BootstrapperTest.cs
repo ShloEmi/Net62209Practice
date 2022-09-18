@@ -2,6 +2,7 @@ using System.IO.Abstractions;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NoNameCompany.IMS.BL.Bootstrapping.Extensions;
 using NoNameCompany.IMS.Tests.Core;
 using NUnit.Framework;
 

@@ -1,22 +1,58 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using Autofac;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
 using NoNameCompany.IMS.BL.DAL.Interfaces;
 using NoNameCompany.IMS.Data.ApplicationData;
 using Serilog;
+using System.IO.Abstractions;
 using System.Text;
 
 namespace NoNameCompany.IMS.BL.DAL.SQLite.V3;
 
-public class SQLite3DAL : IDAL
+public sealed class ItemsDataSettings
+{
+    public int KeyOne { get; set; }
+    public bool KeyTwo { get; set; }
+    // public NestedSettings KeyThree { get; set; } = null!;
+}
+
+
+public class SQLite3DAL : IDAL, IStartable
 {
     private readonly string connectionString;
     private readonly ILogger logger;
+    private readonly IFileSystem fileSystem;
+    private readonly IConfiguration configuration;
+    // private readonly string dbFilePath = "ItemsData.db";
 
 
-    public SQLite3DAL(string connectionString, ILogger logger)
+    public SQLite3DAL(string connectionString, ILogger logger, IFileSystem fileSystem, IConfiguration configuration)
     {
         this.connectionString = connectionString;
         this.logger = logger;
+        this.fileSystem = fileSystem;
+        this.configuration = configuration;
     }
+
+
+    public void Start()
+    {
+        CreateTablesIfDbNotExist();
+    }
+
+    private void CreateTablesIfDbNotExist()
+    {
+        //var itemsDataSettings = configuration.GetRequiredSection("ItemsDataSettings").Get<ItemsDataSettings>();
+        /* TODO: Shlomi, TBC... */
+        //itemsDataSettings.DbFilePath
+
+        //if (fileSystem.File.Exists(dbFilePath) == false)
+        //{
+
+        //}
+    }
+
+
 
 
     public bool CanAddItems() => true;
@@ -37,6 +73,7 @@ public class SQLite3DAL : IDAL
 
             using SqliteConnection connection = GetConnection();
             connection.Open();
+            
 
             StringBuilder commandBuilder = new ();
             commandBuilder.AppendLine("BEGIN TRANSACTION;");

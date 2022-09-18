@@ -1,12 +1,8 @@
-﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NoNameCompany.IMS.BL.DAL.SQLite.V3.Autofac;
 using Serilog;
-using System.IO.Abstractions;
 
-namespace NoNameCompany.IMS.BL.Bootstrapping;
+namespace NoNameCompany.IMS.BL.Bootstrapping.Extensions;
 
 public static class HostBuilderExtension
 {
@@ -23,11 +19,6 @@ public static class HostBuilderExtension
 
         return hostBuilder
             .UseServiceProviderFactory(new AutofacServiceProviderFactory())
-            .ConfigureContainer<ContainerBuilder>(builder =>
-            {
-                builder.RegisterType<FileSystem>().As<IFileSystem>().SingleInstance();
-                builder.RegisterModule<SQLite3Module>();
-            })
             .UseSerilog((hostingContext, loggerConfiguration) =>
             {
                 loggerConfiguration
