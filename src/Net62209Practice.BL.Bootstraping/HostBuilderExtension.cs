@@ -28,7 +28,6 @@ public static class HostBuilderExtension
                 builder.RegisterType<FileSystem>().As<IFileSystem>().SingleInstance();
                 builder.RegisterModule<SQLite3Module>();
             })
-            .ConfigureServices((_, services) => { services.AddLogging(); /* TODO: Shlomi, Replace with Serilog */ })
             .UseSerilog((hostingContext, loggerConfiguration) =>
             {
                 loggerConfiguration

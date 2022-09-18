@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using NoNameCompany.IMS.BL.DAL.Interfaces;
 using NoNameCompany.IMS.Data.ApplicationData;
 using Serilog;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -18,26 +17,32 @@ public class MainWindowViewModel : ViewModelBase
     private string themeSelectedItem;
     private ObservableCollection<string> availableThemes = new();
     private readonly ObservableCollection<ItemContainerData> itemContainerData = new();
-    private readonly Faker<ItemData>? itemDataFaker;
+    private readonly Faker<ItemData> itemDataFaker;
 
     private readonly IDAL dataAccessLayer;
     private readonly ILogger logger;
     private readonly IConfiguration configuration;
 
 
-    public MainWindowViewModel(IDAL dataAccessLayer, ILogger logger, IConfiguration configuration)
+    public MainWindowViewModel(IDAL dataAccessLayer, ILogger logger, IConfiguration configuration, Faker<ItemData> itemDataProvider)
     {
+        logger.Information("called");
+
         this.dataAccessLayer = dataAccessLayer;
         this.logger = logger;
         this.configuration = configuration;
+
+
+        this.itemDataFaker = this.itemDataFaker = new Faker<ItemData>();
 
         AddItemsCommand = new RelayCommand<object>(
             count =>
             {
                 var howMuch = int.Parse(count.ToString() ?? "0");
                 this.dataAccessLayer.AddItemsBulk(
-                    Enumerable.Range(1, howMuch)
-                        .Select(_ => itemDataFaker!.Generate()).ToArray()
+                    Enumerable
+                        .Range(1, howMuch)
+                        .Select(_ => itemDataProvider.Generate()).ToArray()
                 );
             }, 
             _ => this.dataAccessLayer.CanAddItems());
@@ -50,25 +55,7 @@ public class MainWindowViewModel : ViewModelBase
         themeSelectedItem = availableThemes.First();
 
 
-        var itemCategorizationDataFaker = new Faker<ItemCategorizationData>()
-            .RuleFor(o => o.Id, f => Guid.NewGuid())
-            .RuleFor(o => o.Name, f => f.Name.JobTitle())
-            .RuleFor(o => o.Description, f => f.Lorem.Sentence());
 
-        itemDataFaker = new Faker<ItemData>()
-            //Ensure all properties have rules. By default, StrictMode is false
-            //Set a global policy by using Faker.DefaultStrictMode
-            .StrictMode(true)
-            //OrderId is deterministic
-            .RuleFor(o => o.Id, f => Guid.NewGuid())
-            .RuleFor(o => o.Name, f => f.Name.JobTitle())
-            .RuleFor(o => o.Description, f => f.Lorem.Sentence())
-            .RuleFor(o => o.ItemCategorization, f =>
-                {
-                    ItemCategorizationData itemCategorizationData = itemCategorizationDataFaker.Generate();
-                    return itemCategorizationData;
-                }
-            );
     }
 
 

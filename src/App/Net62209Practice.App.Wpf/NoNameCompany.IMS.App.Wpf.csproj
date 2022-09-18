@@ -50,7 +50,6 @@
 		<Folder Include="Controls\" />
 		<Folder Include="Converter\" />
 		<Folder Include="Resources\" />
-		<Folder Include="ViewModels\" />
 	</ItemGroup>
 
 </Project>
