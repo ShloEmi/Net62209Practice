@@ -11,8 +11,16 @@ namespace NoNameCompany.IMS.BL.DAL.SQLite.V3;
 
 public sealed class ItemsDataSettings
 {
+    public static ItemsDataSettings Default = new(0);
+
+
+    public ItemsDataSettings(int keyOne)
+    {
+        KeyOne = keyOne;
+    }
+
+
     public int KeyOne { get; set; }
-    public bool KeyTwo { get; set; }
     // public NestedSettings KeyThree { get; set; } = null!;
 }
 
@@ -42,7 +50,7 @@ public class SQLite3DAL : IDAL, IStartable
 
     private void CreateTablesIfDbNotExist()
     {
-        //var itemsDataSettings = configuration.GetRequiredSection("ItemsDataSettings").Get<ItemsDataSettings>();
+        var itemsDataSettings = configuration.GetSection("ItemsDataSettings").Get<ItemsDataSettings>() ?? ItemsDataSettings.Default;
         /* TODO: Shlomi, TBC... */
         //itemsDataSettings.DbFilePath
 
