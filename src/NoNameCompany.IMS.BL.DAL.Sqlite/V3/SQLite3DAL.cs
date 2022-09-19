@@ -38,16 +38,13 @@ public class SQLite3DAL : DALBase, IStartable
     /// <exception cref="T:System.IO.IOException">An I/O error occurred while trying to open the file.</exception>
     public void Start()
     {
-        if (CreateTablesIfDbNotExist() == false)
-        {
-            var message = "Couldn't open Database.";
-            logger.Fatal(message);
+        if (CreateTablesIfDbNotExist()) 
+            return;
 
-            throw new IOException(message);
-        }
+        var message = "Couldn't open Database.";
+        logger.Fatal(message);
 
-        
-        ;   /*TODO: Shlomi.O, TBC..         */
+        throw new IOException(message);
     }
 
     private bool CreateTablesIfDbNotExist()

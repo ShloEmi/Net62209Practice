@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NoNameCompany.IMS.App.Wpf": {
+      "commandName": "Project",
+      "commandLineArgs": "UIMode=silent"
+    }
+  }
+}

@@ -7,15 +7,19 @@ using NoNameCompany.IMS.App.Wpf.ViewModels;
 using NoNameCompany.IMS.App.Wpf.Views;
 using NoNameCompany.IMS.BL.Bootstrapping.Autofac;
 using NoNameCompany.IMS.BL.Bootstrapping.Extensions;
+using System;
+using System.Linq;
 using System.Windows;
 
 namespace NoNameCompany.IMS.App.Wpf;
 
+
 public partial class App
 {
-    private IHost host; /* TODO: Shlomi, why warning here? */
+    private IHost? host;
 
 
+    /// <inheritdoc />
     protected override async void OnStartup(StartupEventArgs args)
     {
         string appSettingsName = "appSettings", jsonFileExtension = "json";
@@ -44,7 +48,18 @@ public partial class App
                 builder.RegisterType<MainWindow>();
             });
 
-        host = hostBuilder.Build();
+        try
+        {
+            host = hostBuilder.Build();
+        }
+        catch (Exception exception)
+        {
+            if (!args.Args.Any(s => s.Contains("UIMode=silent")))
+                MessageBox.Show(exception.Message, "Error while loading the host application.",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Stop);
+
+            Environment.Exit((int)ExitCodes.ExitCodeHostBuildError);
+        }
         
         await host.StartAsync();
 
@@ -55,3 +70,6 @@ public partial class App
         base.OnStartup(args);
     }
 }
+
+/// <ExitCodeHostBuildError> Exit with code 1 when Host-Build-Error occurred. </ExitCodeHostBuildError>
+public enum ExitCodes { ExitCodeHostBuildError = 1 }
