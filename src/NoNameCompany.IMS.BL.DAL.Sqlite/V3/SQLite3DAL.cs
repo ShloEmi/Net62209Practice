@@ -15,7 +15,8 @@ public class SQLite3DAL : DALBase, IStartable
 {
     public class Defaults
     {
-        public static readonly string ItemsDbConnectionString = @"Data Source=.\sqlite3\Items.db;Version=3;FailIfMissing=False";
+        public static readonly string ItemsDbPath = @".\sqlite3\Items.db";
+        public static readonly string ItemsDbConnectionString = @$"Data Source={ItemsDbPath};Mode=ReadWrite";
     }
 
 
@@ -34,33 +35,58 @@ public class SQLite3DAL : DALBase, IStartable
     }
 
 
+    /// <exception cref="T:System.IO.IOException">An I/O error occurred while trying to open the file.</exception>
     public void Start()
     {
-        CreateTablesIfDbNotExist();
+        if (CreateTablesIfDbNotExist() == false)
+        {
+            var message = "Couldn't open Database.";
+            logger.Fatal(message);
+
+            throw new IOException(message);
+        }
+
+        
+        ;   /*TODO: Shlomi.O, TBC..         */
     }
 
-    private void CreateTablesIfDbNotExist()
+    private bool CreateTablesIfDbNotExist()
     {
         ItemsDataSettingsDTO itemsDataSettings = configuration
             .GetSection(DataLayerSectionName)
             .Get<ItemsDataSettingsDTO>() ?? new ItemsDataSettingsDTO(Defaults.ItemsDbConnectionString); /* TODO: Shlomi, Get<ItemsDataSettingsDTO not working! fix this... */
 
-        //if (!fileSystem.File.Exists(itemsDataSettings.DbFilePath))
+        if (!fileSystem.File.Exists(Defaults.ItemsDbPath))
         {
             try
             {
-                using SqliteConnection connection = GetConnection();
-                connection.Open();
+                fileSystem.File.Create(Defaults.ItemsDbPath);
             }
             catch (Exception exception)
             {
                 logger.Error(exception, 
-                    "Couldn't open ConnectionString: '{itemsDataSettings.ConnectionString}'"
-                    , itemsDataSettings.ConnectionString);
+                    "Couldn't File.Create: '{Defaults.ItemsDbPath}'"
+                    , Defaults.ItemsDbPath);
+
+                return false;
             }
         }
 
-        /* TODO: Shlomi, Remark... */
+
+        try
+        {
+            using SqliteConnection connection = GetConnection();
+            connection.Open();
+        }
+        catch (Exception exception)
+        {
+            logger.Error(exception, 
+                "Couldn't open ConnectionString: '{itemsDataSettings.ConnectionString}'"
+                , itemsDataSettings.ConnectionString);
+        }
+
+
+        return true; /* TODO: Shlomi,  TBC.. */
     }
 
 
