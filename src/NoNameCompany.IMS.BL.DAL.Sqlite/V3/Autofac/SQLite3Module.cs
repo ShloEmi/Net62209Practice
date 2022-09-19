@@ -13,7 +13,8 @@ public class SQLite3Module : Module
 
             .Named<IDAL>("ItemsDB")
 
-            .WithParameter("connectionString", @"Data Source=.\sqlite3\Items.db;Version=3;FailIfMissing=False"); 
+            /* TODO: Shlomi, take me from config */
+            .WithParameter("connectionString", SQLite3DAL.Defaults.ItemsDbConnectionString); 
 
 
         base.Load(builder);

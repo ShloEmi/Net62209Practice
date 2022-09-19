@@ -13,13 +13,16 @@ namespace NoNameCompany.IMS.BL.DAL.SQLite.V3;
 /// <inheritdoc />
 public class SQLite3DAL : DALBase, IStartable
 {
+    public class Defaults
+    {
+        public static readonly string ItemsDbConnectionString = @"Data Source=.\sqlite3\Items.db;Version=3;FailIfMissing=False";
+    }
+
 
     private readonly string connectionString;
     private readonly ILogger logger;
     private readonly IFileSystem fileSystem;
     private readonly IConfiguration configuration;
-
-    // private readonly string dbFilePath = "ItemsData.db";
 
 
     public SQLite3DAL(string connectionString, ILogger logger, IFileSystem fileSystem, IConfiguration configuration)
@@ -40,29 +43,24 @@ public class SQLite3DAL : DALBase, IStartable
     {
         ItemsDataSettingsDTO itemsDataSettings = configuration
             .GetSection(DataLayerSectionName)
-            .Get<ItemsDataSettingsDTO>() ?? ItemsDataSettingsDTO.Default; /* TODO: Shlomi, Get<ItemsDataSettingsDTO not working! fix this... */
+            .Get<ItemsDataSettingsDTO>() ?? new ItemsDataSettingsDTO(Defaults.ItemsDbConnectionString); /* TODO: Shlomi, Get<ItemsDataSettingsDTO not working! fix this... */
 
-        if (!fileSystem.File.Exists(itemsDataSettings.DbFilePath))
+        //if (!fileSystem.File.Exists(itemsDataSettings.DbFilePath))
         {
             try
             {
-                CreateDB();
+                using SqliteConnection connection = GetConnection();
+                connection.Open();
             }
             catch (Exception exception)
             {
-                logger.Error(exception, "Couldn't create '{itemsDataSettings.DbFilePath}'", itemsDataSettings.DbFilePath);
+                logger.Error(exception, 
+                    "Couldn't open ConnectionString: '{itemsDataSettings.ConnectionString}'"
+                    , itemsDataSettings.ConnectionString);
             }
-
         }
+
         /* TODO: Shlomi, Remark... */
-    }
-
-    private void CreateDB()
-    {
-        logger.Information("Called");
-
-        using SqliteConnection connection = GetConnection();
-        connection.Open();
     }
 
 
