@@ -6,26 +6,14 @@ namespace NoNameCompany.IMS.BL.Bootstrapping.Extensions;
 
 public static class HostBuilderExtension
 {
-    public static IHostBuilder AddIMSServices(this IHostBuilder hostBuilder)
-    {
-        // Configure Logger
-        //Log.Logger = new LoggerConfiguration()
-        //    //.MinimumLevel.Debug()
-        //    //.MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-        //    //.Enrich.FromLogContext()
-        //    //.WriteTo.Console()
-        //    .CreateLogger();
-
-
-        return hostBuilder
+    public static IHostBuilder AddIMSServices(this IHostBuilder hostBuilder) =>
+        hostBuilder
             .UseServiceProviderFactory(new AutofacServiceProviderFactory())
             .UseSerilog((hostingContext, loggerConfiguration) =>
             {
+                /* TODO: Shlomi, add caller name !! */
                 loggerConfiguration
                     .ReadFrom.Configuration(hostingContext.Configuration)
-                    .Enrich.FromLogContext()
-                    //.WriteTo.Console()
-                    ;
+                    .Enrich.FromLogContext();
             });
-    }
 }

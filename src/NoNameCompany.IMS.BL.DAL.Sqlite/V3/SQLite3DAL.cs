@@ -1,7 +1,8 @@
 ﻿using Autofac;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
-using NoNameCompany.IMS.BL.DAL.Interfaces;
+using NoNameCompany.IMS.BL.DAL.Framework;
+using NoNameCompany.IMS.BL.DAL.SQLite.Settings;
 using NoNameCompany.IMS.Data.ApplicationData;
 using Serilog;
 using System.IO.Abstractions;
@@ -9,28 +10,15 @@ using System.Text;
 
 namespace NoNameCompany.IMS.BL.DAL.SQLite.V3;
 
-public sealed class ItemsDataSettings
+/// <inheritdoc />
+public class SQLite3DAL : DALBase, IStartable
 {
-    public static ItemsDataSettings Default = new(0);
 
-
-    public ItemsDataSettings(int keyOne)
-    {
-        KeyOne = keyOne;
-    }
-
-
-    public int KeyOne { get; set; }
-    // public NestedSettings KeyThree { get; set; } = null!;
-}
-
-
-public class SQLite3DAL : IDAL, IStartable
-{
     private readonly string connectionString;
     private readonly ILogger logger;
     private readonly IFileSystem fileSystem;
     private readonly IConfiguration configuration;
+
     // private readonly string dbFilePath = "ItemsData.db";
 
 
@@ -50,22 +38,37 @@ public class SQLite3DAL : IDAL, IStartable
 
     private void CreateTablesIfDbNotExist()
     {
-        var itemsDataSettings = configuration.GetSection("ItemsDataSettings").Get<ItemsDataSettings>() ?? ItemsDataSettings.Default;
-        /* TODO: Shlomi, TBC... */
-        //itemsDataSettings.DbFilePath
+        ItemsDataSettingsDTO itemsDataSettings = configuration
+            .GetSection(DataLayerSectionName)
+            .Get<ItemsDataSettingsDTO>() ?? ItemsDataSettingsDTO.Default; /* TODO: Shlomi, Get<ItemsDataSettingsDTO not working! fix this... */
 
-        //if (fileSystem.File.Exists(dbFilePath) == false)
-        //{
+        if (!fileSystem.File.Exists(itemsDataSettings.DbFilePath))
+        {
+            try
+            {
+                CreateDB();
+            }
+            catch (Exception exception)
+            {
+                logger.Error(exception, "Couldn't create '{itemsDataSettings.DbFilePath}'", itemsDataSettings.DbFilePath);
+            }
 
-        //}
+        }
+        /* TODO: Shlomi, Remark... */
+    }
+
+    private void CreateDB()
+    {
+        logger.Information("Called");
+
+        using SqliteConnection connection = GetConnection();
+        connection.Open();
     }
 
 
+    public override bool CanAddItems() => true;
 
-
-    public bool CanAddItems() => true;
-
-    public bool AddItemsBulk(IEnumerable<ItemData>? items)
+    public override bool AddItemsBulk(IEnumerable<ItemData>? items)
     {
         if (items == null)
             return true;

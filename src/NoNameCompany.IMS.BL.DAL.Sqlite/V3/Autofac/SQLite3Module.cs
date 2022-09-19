@@ -10,10 +10,11 @@ public class SQLite3Module : Module
         builder.RegisterType<SQLite3DAL>()
             .As<IDAL>()
             .As<IStartable>()
-            /*.Named<IDAL>("ItemsTable")*/
-            .WithParameter("connectionString", "Data Source=Items.db");
-        //builder.RegisterType<SQLite3DAL>().As<IDAL>().Named<IDAL>("AnotherTable")
-        //    .WithParameter("connectionString", "Data Source=Another.db");
+
+            .Named<IDAL>("ItemsDB")
+
+            .WithParameter("connectionString", @"Data Source=.\sqlite3\Items.db;Version=3;FailIfMissing=False"); 
+
 
         base.Load(builder);
     }

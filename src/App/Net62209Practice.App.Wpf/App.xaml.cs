@@ -33,13 +33,13 @@ public partial class App
 
             .AddIMSServices()
         
-
             .ConfigureContainer<ContainerBuilder>(builder =>
             {
                 builder.RegisterModule<BLModule>();
 
                 builder.RegisterItemDataProvider();
 
+                /* TODO: Shlomi, move me to NoNameCompany.IMS.Wpf.Module */
                 builder.RegisterType<MainWindowViewModel>();
                 builder.RegisterType<MainWindow>();
             });
