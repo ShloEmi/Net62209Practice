@@ -7,6 +7,11 @@ public class SQLite3Module : Module
 {
     protected override void Load(ContainerBuilder builder)
     {
+        builder.RegisterType<SQLite3DALBootstrapper>()
+            .As<IDAL>()
+            .As<IStartable>();
+
+
         builder.RegisterType<SQLite3DAL>()
             .As<IDAL>()
             .As<IStartable>()
