@@ -46,7 +46,11 @@ public class SQLite3DALBootstrapper : Module, IStartable
         {
             try
             {
-                fileSystem.File.Create(SQLite3DAL.Defaults.ItemsDbPath);
+                
+
+                fileSystem.Directory.CreateDirectory(fileSystem.Path.GetDirectoryName(SQLite3DAL.Defaults.ItemsDbPath));
+
+                using Stream stream = fileSystem.File.Create(SQLite3DAL.Defaults.ItemsDbPath);
             }
             catch (Exception exception)
             {
@@ -61,7 +65,7 @@ public class SQLite3DALBootstrapper : Module, IStartable
 
         try
         {
-            using SqliteConnection connection = GetConnection();
+            using SqliteConnection connection = new(itemsDataSettings.ConnectionString);
             connection.Open();
         }
         catch (Exception exception)
@@ -74,7 +78,4 @@ public class SQLite3DALBootstrapper : Module, IStartable
 
         return true; /* TODO: Shlomi,  TBC.. */
     }
-
-    private SqliteConnection GetConnection() => 
-        new(itemsDataSettings.ConnectionString);
 }
