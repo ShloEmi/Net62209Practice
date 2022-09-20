@@ -6,7 +6,7 @@ using System.IO.Abstractions;
 
 namespace NoNameCompany.IMS.BL.DAL.SQLite.V3.Autofac;
 
-public class SQLite3DALBootstrapper : Module
+public class SQLite3DALBootstrapper : Module, IStartable
 {
     private readonly IFileSystem fileSystem;
     private readonly ILogger logger;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using NoNameCompany.IMS.BL.DAL.Framework;
+using NoNameCompany.IMS.BL.DAL.SQLite.Settings;
 using NoNameCompany.IMS.Data.ApplicationData;
 using Serilog;
 using System.Text;
@@ -16,13 +17,12 @@ public class SQLite3DAL : DALBase
     }
 
 
-    private readonly string connectionString;
     private readonly ILogger logger;
 
 
-    public SQLite3DAL(string connectionString, ILogger logger)
+    /* TODO: Shlomi, connectionString?  */
+    public SQLite3DAL(ILogger logger)
     {
-        this.connectionString = connectionString; /* TODO: Shlomi, get relevant section from the config */
         this.logger = logger;
     }
     
@@ -43,7 +43,7 @@ public class SQLite3DAL : DALBase
         {
             logger.Information("Try AddItemsBulk, count: {itemDatum-Count}", itemDatum.Length);
 
-            using SqliteConnection connection = GetConnection();
+            using SqliteConnection connection = new(Defaults.ItemsDbConnectionString);
             connection.Open();
             
 
@@ -70,7 +70,4 @@ public class SQLite3DAL : DALBase
             return false;
         }
     }
-
-    private SqliteConnection GetConnection() => 
-        new(connectionString);
 }
