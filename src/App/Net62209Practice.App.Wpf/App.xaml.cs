@@ -39,7 +39,7 @@ public partial class App
         
             .ConfigureContainer<ContainerBuilder>(builder =>
             {
-                builder.RegisterModule<BLModule>();
+                builder.RegisterIMSServices();
 
                 builder.RegisterItemDataProvider();
 

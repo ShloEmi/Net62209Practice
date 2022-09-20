@@ -1,10 +1,11 @@
-using System.IO.Abstractions;
+using Autofac;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NoNameCompany.IMS.BL.Bootstrapping.Extensions;
 using NoNameCompany.IMS.Tests.Core;
 using NUnit.Framework;
+using System.IO.Abstractions;
 
 namespace NoNameCompany.IMS.BL.Bootstrapping.Tests;
 
@@ -29,8 +30,9 @@ public class BootstrapperTest
     [Test]
     public void Test__Register__nullArgs__Expected_UUT_ShouldNotBeNull()
     {
-        IHostBuilder uut = HostBuilderExtension.AddIMSServices(Host
-            .CreateDefaultBuilder(null));
+        IHostBuilder uut = Host
+            .CreateDefaultBuilder(null)
+            .AddIMSServices();
 
         uut.Should().NotBeNull();
     }
@@ -39,8 +41,9 @@ public class BootstrapperTest
     public void Test__Register__ArrayEmpty_string_Args__Expected_UUT_ShouldNotBeNull()
     {
         string[] args = Array.Empty<string>();
-        IHostBuilder uut = HostBuilderExtension.AddIMSServices(Host
-            .CreateDefaultBuilder(args));
+        IHostBuilder uut = Host
+            .CreateDefaultBuilder(args)
+            .AddIMSServices();
 
         uut.Should().NotBeNull();
     }
@@ -49,8 +52,14 @@ public class BootstrapperTest
     [Test, Category(TestCategory.MustPass)]
     public void Test__Register__GetRequiredService_FileSystem__Expected_fileSystem_ShouldNotBeNull()
     {
-        IHostBuilder hostBuilder = HostBuilderExtension.AddIMSServices(Host
-            .CreateDefaultBuilder(null));
+        IHostBuilder hostBuilder = Host
+            .CreateDefaultBuilder(null)
+            .AddIMSServices()
+            .ConfigureContainer<ContainerBuilder>(builder =>
+            {
+                builder.RegisterIMSServices();
+            });
+
         IHost uut = hostBuilder.Build();
 
         var fileSystem = uut.Services.GetService<IFileSystem>();

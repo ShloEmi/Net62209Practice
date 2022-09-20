@@ -24,7 +24,7 @@ public class SQLite3DALBootstrapper : Module, IStartable
     /// <exception cref="T:System.IO.IOException">An I/O error occurred while trying to open the file.</exception>
     public void Start()
     {
-        if (CreateTablesIfDbNotExist()) 
+        if (CreateTablesIfNeeded()) 
             return;
 
         var message = "Couldn't open Database.";
@@ -33,33 +33,30 @@ public class SQLite3DALBootstrapper : Module, IStartable
         throw new IOException(message);
     }
 
-    private bool CreateTablesIfDbNotExist()
+    private bool CreateTablesIfNeeded()
     {
         /* TODO: Shlomi, move me to right place */
         //ItemsDataSettingsDTO itemsDataSettings
-            //= configuration
-            //.GetSection(DataLayerSectionName)
-            //.Get<ItemsDataSettingsDTO>() ?? new ItemsDataSettingsDTO(SQLite3DAL.Defaults.ItemsDbConnectionString); /* TODO: Shlomi, Get<ItemsDataSettingsDTO not working! fix this... */
-
-
-        if (!fileSystem.File.Exists(SQLite3DAL.Defaults.ItemsDbPath))
+        //= configuration
+        //.GetSection(DataLayerSectionName)
+        //.Get<ItemsDataSettingsDTO>() ?? new ItemsDataSettingsDTO(SQLite3DAL.Defaults.ItemsDbConnectionString); /* TODO: Shlomi, Get<ItemsDataSettingsDTO not working! fix this... */
+        
+        try
         {
-            try
+            if (!fileSystem.File.Exists(SQLite3DAL.Defaults.ItemsDbPath))
             {
-                
-
                 fileSystem.Directory.CreateDirectory(fileSystem.Path.GetDirectoryName(SQLite3DAL.Defaults.ItemsDbPath));
 
                 using Stream stream = fileSystem.File.Create(SQLite3DAL.Defaults.ItemsDbPath);
             }
-            catch (Exception exception)
-            {
-                logger.Error(exception, 
-                    "Couldn't File.Create: '{Defaults.ItemsDbPath}'"
-                    , SQLite3DAL.Defaults.ItemsDbPath);
+        }
+        catch (Exception exception)
+        {
+            logger.Fatal(exception, 
+                "Couldn't File.Create: '{Defaults.ItemsDbPath}'"
+                , SQLite3DAL.Defaults.ItemsDbPath);
 
-                return false;
-            }
+            return false;
         }
 
 
@@ -70,12 +67,13 @@ public class SQLite3DALBootstrapper : Module, IStartable
         }
         catch (Exception exception)
         {
-            logger.Error(exception, 
+            logger.Fatal(exception, 
                 "Couldn't open ConnectionString: '{itemsDataSettings.ConnectionString}'"
                 , itemsDataSettings.ConnectionString);
+
+            return false;
         }
 
-
-        return true; /* TODO: Shlomi,  TBC.. */
+        return true;
     }
 }

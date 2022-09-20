@@ -1,5 +1,7 @@
-﻿using Autofac.Extensions.DependencyInjection;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NoNameCompany.IMS.BL.Bootstrapping.Autofac;
 using Serilog;
 
 namespace NoNameCompany.IMS.BL.Bootstrapping.Extensions;
@@ -16,4 +18,10 @@ public static class HostBuilderExtension
                     .ReadFrom.Configuration(hostingContext.Configuration)
                     .Enrich.FromLogContext();
             });
+
+    public static ContainerBuilder RegisterIMSServices(this ContainerBuilder containerBuilder)
+    {
+        containerBuilder.RegisterModule<BLModule>();
+        return containerBuilder;
+    }
 }
