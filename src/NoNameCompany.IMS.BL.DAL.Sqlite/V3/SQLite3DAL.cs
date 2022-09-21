@@ -1,9 +1,9 @@
 ﻿using Microsoft.Data.Sqlite;
 using NoNameCompany.IMS.BL.DAL.Framework;
-using NoNameCompany.IMS.BL.DAL.SQLite.Settings;
 using NoNameCompany.IMS.Data.ApplicationData;
 using Serilog;
 using System.Text;
+using NoNameCompany.IMS.BL.DAL.SQLite.V3.Extensions;
 
 namespace NoNameCompany.IMS.BL.DAL.SQLite.V3;
 
@@ -29,6 +29,7 @@ public class SQLite3DAL : DALBase
 
     public override bool CanAddItems() => true;
 
+    /// <remarks> Thread safe </remarks>
     public override bool AddItemsBulk(IEnumerable<ItemData>? items)
     {
         if (items == null)
@@ -48,20 +49,17 @@ public class SQLite3DAL : DALBase
             
 
             StringBuilder commandBuilder = new ();
-            commandBuilder.AppendLine("BEGIN TRANSACTION;");
-            foreach (ItemData itemData in itemDatum)
-            {
-                /* TODO: Shlomi, compare native sql vs Sqlite3Framework */
-                commandBuilder.AppendLine("INSERT INTO 'Items' table VALUES ('data1', 'data2');");
-            }
-            commandBuilder.AppendLine("COMMIT;");
+            using (commandBuilder.BeginTransaction())
+                foreach (ItemData itemData in itemDatum)
+                {
 
+                    commandBuilder.AppendLine("INSERT INTO 'Items' table VALUES ('data1', 'data2');");
+                }
 
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = commandBuilder.ToString();
             
             // command.Parameters.AddWithValue("$id", id);
-
             return command.ExecuteNonQuery() == itemDatum.Length;
         }
         catch (Exception exception)
