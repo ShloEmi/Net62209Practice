@@ -10,6 +10,7 @@ using NoNameCompany.IMS.BL.Bootstrapping.Extensions;
 using System;
 using System.Linq;
 using System.Windows;
+using AutoMapper;
 
 namespace NoNameCompany.IMS.App.Wpf;
 

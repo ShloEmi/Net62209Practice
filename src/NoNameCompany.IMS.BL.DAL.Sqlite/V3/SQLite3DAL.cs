@@ -1,9 +1,11 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using AutoMapper;
+using Microsoft.Data.Sqlite;
 using NoNameCompany.IMS.BL.DAL.Framework;
+using NoNameCompany.IMS.BL.DAL.SQLite.V3.DTOs;
+using NoNameCompany.IMS.BL.DAL.SQLite.V3.Extensions;
 using NoNameCompany.IMS.Data.ApplicationData;
 using Serilog;
 using System.Text;
-using NoNameCompany.IMS.BL.DAL.SQLite.V3.Extensions;
 
 namespace NoNameCompany.IMS.BL.DAL.SQLite.V3;
 
@@ -18,12 +20,14 @@ public class SQLite3DAL : DALBase
 
 
     private readonly ILogger logger;
+    private readonly IMapper mapper;    /* TODO: Shlomi, add auto-wire support! */
 
 
     /* TODO: Shlomi, connectionString?  */
-    public SQLite3DAL(ILogger logger)
+    public SQLite3DAL(ILogger logger, IMapper mapper)
     {
         this.logger = logger;
+        this.mapper = mapper;
     }
     
 
@@ -52,8 +56,9 @@ public class SQLite3DAL : DALBase
             using (commandBuilder.BeginTransaction())
                 foreach (ItemData itemData in itemDatum)
                 {
-
-                    commandBuilder.AppendLine("INSERT INTO 'Items' table VALUES ('data1', 'data2');");
+                    var itemDataSqliteDTO = mapper.Map<ItemDataSqlite3DTO>(itemData);
+                    string sqlInsert = itemDataSqliteDTO.ToSqlInsert();
+                    commandBuilder.AppendLine($"INSERT INTO 'Items' table VALUES ({sqlInsert});");
                 }
 
             SqliteCommand command = connection.CreateCommand();
