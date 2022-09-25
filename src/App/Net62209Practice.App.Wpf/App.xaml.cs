@@ -29,6 +29,7 @@ public partial class App
             {
                 configuration.Sources.Clear();
 
+                /* TODO: Shlomi, each module needs to do this for it's configuration! */
                 configuration
                     .AddJsonFile($"{appSettingsName}.{jsonFileExtension}", true, reloadOnChange: true)
                     .AddJsonFile($"{appSettingsName}.{hostingContext.HostingEnvironment.EnvironmentName}.{jsonFileExtension}", true, reloadOnChange: true);

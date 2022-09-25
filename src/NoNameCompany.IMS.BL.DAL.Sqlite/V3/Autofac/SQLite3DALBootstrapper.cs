@@ -1,7 +1,7 @@
 using Autofac;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
-using NoNameCompany.IMS.BL.DAL.SQLite.Settings;
+using NoNameCompany.IMS.BL.DAL.SQLite.V3.Settings;
 using Serilog;
 using System.IO.Abstractions;
 
@@ -28,6 +28,10 @@ public class SQLite3DALBootstrapper : Module, IStartable
     /// <exception cref="T:System.IO.IOException">An I/O error occurred while trying to open the file.</exception>
     public void Start()
     {
+        if (!itemsDataSettings.Version.StartsWith("3"))
+            throw new Exception("Unsupported version");
+
+
         if (CreateTablesIfNeeded()) 
             return;
 
