@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
 using NoNameCompany.IMS.BL.DAL.Framework;
+using NoNameCompany.IMS.BL.DAL.SQLite.Settings;
 using NoNameCompany.IMS.BL.DAL.SQLite.V3.DTOs;
 using NoNameCompany.IMS.BL.DAL.SQLite.V3.Extensions;
 using NoNameCompany.IMS.Data.ApplicationData;
@@ -12,22 +14,20 @@ namespace NoNameCompany.IMS.BL.DAL.SQLite.V3;
 /// <inheritdoc />
 public class SQLite3DAL : DALBase
 {
-    public class Defaults
-    {
-        public static readonly string ItemsDbPath = @".\sqlite3\Items.db";
-        public static readonly string ItemsDbConnectionString = @$"Data Source={ItemsDbPath};Mode=ReadWrite";
-    }
-
-
     private readonly ILogger logger;
     private readonly IMapper mapper;    /* TODO: Shlomi, add auto-wire support! */
+    private readonly ItemsDataSettings itemsDataSettings;
 
 
     /* TODO: Shlomi, connectionString?  */
-    public SQLite3DAL(ILogger logger, IMapper mapper)
+    public SQLite3DAL(ILogger logger, IMapper mapper, IConfiguration configuration)
     {
         this.logger = logger;
         this.mapper = mapper;
+
+        configuration
+            .GetSection(nameof(ItemsDataSettings))
+            .Bind(itemsDataSettings);
     }
     
 
@@ -48,7 +48,7 @@ public class SQLite3DAL : DALBase
         {
             logger.Information("Try AddItemsBulk, count: {itemDatum-Count}", itemDatum.Length);
 
-            using SqliteConnection connection = new(Defaults.ItemsDbConnectionString);
+            using SqliteConnection connection = new(itemsDataSettings.ConnectionString);
             connection.Open();
             
 

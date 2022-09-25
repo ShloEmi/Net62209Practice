@@ -1,5 +1,6 @@
 using Autofac;
 using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
 using NoNameCompany.IMS.BL.DAL.SQLite.Settings;
 using Serilog;
 using System.IO.Abstractions;
@@ -10,14 +11,17 @@ public class SQLite3DALBootstrapper : Module, IStartable
 {
     private readonly IFileSystem fileSystem;
     private readonly ILogger logger;
-    private readonly ItemsDataSettings itemsDataSettings;
+    private readonly ItemsDataSettings itemsDataSettings = new();
 
 
-    public SQLite3DALBootstrapper(IFileSystem fileSystem, ILogger logger, ItemsDataSettings itemsDataSettings)
+    public SQLite3DALBootstrapper(IFileSystem fileSystem, ILogger logger, IConfiguration configuration)
     {
         this.fileSystem = fileSystem;
         this.logger = logger;
-        this.itemsDataSettings = itemsDataSettings;
+
+        configuration
+            .GetSection(nameof(ItemsDataSettings))
+            .Bind(itemsDataSettings);
     }
 
 
@@ -43,18 +47,18 @@ public class SQLite3DALBootstrapper : Module, IStartable
         
         try
         {
-            if (!fileSystem.File.Exists(SQLite3DAL.Defaults.ItemsDbPath))
+            if (!fileSystem.File.Exists(itemsDataSettings.ItemsDbPath))
             {
-                fileSystem.Directory.CreateDirectory(fileSystem.Path.GetDirectoryName(SQLite3DAL.Defaults.ItemsDbPath));
+                fileSystem.Directory.CreateDirectory(fileSystem.Path.GetDirectoryName(itemsDataSettings.ItemsDbPath));
 
-                using Stream stream = fileSystem.File.Create(SQLite3DAL.Defaults.ItemsDbPath);
+                using Stream stream = fileSystem.File.Create(itemsDataSettings.ItemsDbPath);
             }
         }
         catch (Exception exception)
         {
             logger.Fatal(exception, 
                 "Couldn't File.Create: '{Defaults.ItemsDbPath}'"
-                , SQLite3DAL.Defaults.ItemsDbPath);
+                , itemsDataSettings.ItemsDbPath);
 
             return false;
         }
