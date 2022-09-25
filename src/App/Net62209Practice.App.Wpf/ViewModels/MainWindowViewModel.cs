@@ -1,7 +1,6 @@
 ﻿using Bogus;
 using CommunityToolkit.Mvvm.Input;
 using ControlzEx.Theming;
-using Microsoft.Extensions.Configuration;
 using NoNameCompany.IMS.BL.DAL.Interfaces;
 using NoNameCompany.IMS.Data.ApplicationData;
 using Serilog;
@@ -17,35 +16,23 @@ public class MainWindowViewModel : ViewModelBase
     private string themeSelectedItem;
     private ObservableCollection<string> availableThemes = new();
     private readonly ObservableCollection<ItemContainerData> itemContainerData = new();
-    private readonly Faker<ItemData> itemDataFaker;
-
-    private readonly IDAL dataAccessLayer;
-    private readonly ILogger logger;
-    private readonly IConfiguration configuration;
 
 
-    public MainWindowViewModel(IDAL dataAccessLayer, ILogger logger, IConfiguration configuration, Faker<ItemData> itemDataProvider)
+    public MainWindowViewModel(IDAL dataAccessLayer, ILogger logger, Faker<ItemData> itemDataProvider)
     {
         logger.Information("called");
-
-        this.dataAccessLayer = dataAccessLayer;
-        this.logger = logger;
-        this.configuration = configuration;
-
-
-        this.itemDataFaker = this.itemDataFaker = new Faker<ItemData>();
 
         AddItemsCommand = new RelayCommand<object>(
             count =>
             {
-                var howMuch = int.Parse(count.ToString() ?? "0");
-                this.dataAccessLayer.AddItemsBulk(
+                var howMuch = int.Parse(count?.ToString() ?? "0");
+                dataAccessLayer.AddItemsBulk(
                     Enumerable
                         .Range(1, howMuch)
                         .Select(_ => itemDataProvider.Generate()).ToArray()
                 );
             }, 
-            _ => this.dataAccessLayer.CanAddItems());
+            _ => dataAccessLayer.CanAddItems());
 
 
         /* TODO: Shlomi, should be in configuration */
@@ -53,9 +40,6 @@ public class MainWindowViewModel : ViewModelBase
         availableThemes.Add("dark.blue");
 
         themeSelectedItem = availableThemes.First();
-
-
-
     }
 
 

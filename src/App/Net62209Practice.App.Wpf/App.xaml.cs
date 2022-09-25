@@ -5,12 +5,10 @@ using Microsoft.Extensions.Hosting;
 using NoNameCompany.IMS.App.Wpf.Extensions;
 using NoNameCompany.IMS.App.Wpf.ViewModels;
 using NoNameCompany.IMS.App.Wpf.Views;
-using NoNameCompany.IMS.BL.Bootstrapping.Autofac;
 using NoNameCompany.IMS.BL.Bootstrapping.Extensions;
 using System;
 using System.Linq;
 using System.Windows;
-using AutoMapper;
 
 namespace NoNameCompany.IMS.App.Wpf;
 
@@ -63,8 +61,6 @@ public partial class App
         }
         
         await host.StartAsync();
-
-        /* TODO: Shlomi, ensure db */
 
         host.Services.GetService<MainWindow>()!.Show();
 

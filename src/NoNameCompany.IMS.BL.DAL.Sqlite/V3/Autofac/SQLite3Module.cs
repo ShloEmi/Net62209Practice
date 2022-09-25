@@ -10,7 +10,7 @@ public class SQLite3Module : Module
 {
     protected override void Load(ContainerBuilder builder)
     {
-        builder.RegisterType<ItemsDataSettingsDTO>()
+        builder.RegisterType<ItemsDataSettings>()
             .AsSelf()
             .WithParameter("connectionString", SQLite3DAL.Defaults.ItemsDbConnectionString); 
 

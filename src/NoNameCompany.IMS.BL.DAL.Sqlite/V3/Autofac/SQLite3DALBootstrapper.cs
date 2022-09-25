@@ -10,10 +10,10 @@ public class SQLite3DALBootstrapper : Module, IStartable
 {
     private readonly IFileSystem fileSystem;
     private readonly ILogger logger;
-    private readonly ItemsDataSettingsDTO itemsDataSettings;
+    private readonly ItemsDataSettings itemsDataSettings;
 
 
-    public SQLite3DALBootstrapper(IFileSystem fileSystem, ILogger logger, ItemsDataSettingsDTO itemsDataSettings)
+    public SQLite3DALBootstrapper(IFileSystem fileSystem, ILogger logger, ItemsDataSettings itemsDataSettings)
     {
         this.fileSystem = fileSystem;
         this.logger = logger;
