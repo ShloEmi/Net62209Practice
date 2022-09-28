@@ -3,11 +3,8 @@ using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using NoNameCompany.IMS.BL.DAL.Framework;
 using NoNameCompany.IMS.BL.DAL.SQLite.V3.DTOs;
-using NoNameCompany.IMS.BL.DAL.SQLite.V3.Extensions;
 using NoNameCompany.IMS.Data.ApplicationData;
 using Serilog;
-using System.Text;
-using NoNameCompany.IMS.BL.DAL.SQLite.V3.Settings;
 
 namespace NoNameCompany.IMS.BL.DAL.SQLite.V3;
 
@@ -16,7 +13,7 @@ public class SQLite3DAL : DALBase
 {
     private readonly ILogger logger;
     private readonly IMapper mapper;    /* TODO: Shlomi, add auto-wire support! */
-    private readonly ItemsDataSettings itemsDataSettings;
+    private readonly IConfiguration configuration;
 
 
     /* TODO: Shlomi, connectionString?  */
@@ -24,14 +21,14 @@ public class SQLite3DAL : DALBase
     {
         this.logger = logger;
         this.mapper = mapper;
+        this.configuration = configuration;
 
-        configuration
-            .GetSection(nameof(ItemsDataSettings))
-            .Bind(itemsDataSettings);
+        // string str = configuration.GetValue<string>("ItemsDataSettings:ConnectionStringArgs"); /* TODO: Shlomi, Need to learn about .Net6-configuration!!! */
     }
     
 
     public override bool CanAddItems() => true;
+
 
     /// <remarks> Thread safe </remarks>
     public override bool AddItemsBulk(IEnumerable<ItemData>? items)
@@ -48,23 +45,15 @@ public class SQLite3DAL : DALBase
         {
             logger.Information("Try AddItemsBulk, count: {itemDatum-Count}", itemDatum.Length);
 
-            using SqliteConnection connection = new(itemsDataSettings.ConnectionString);
+
+            using SqliteConnection connection = new(GetSqliteConnection());
             connection.Open();
             
 
-            StringBuilder commandBuilder = new ();
-            using (commandBuilder.BeginTransaction())
-                foreach (ItemData itemData in itemDatum)
-                {
-                    var itemDataSqliteDTO = mapper.Map<ItemDataSqlite3DTO>(itemData);
-                    string sqlInsert = itemDataSqliteDTO.ToSqlInsert();
-                    commandBuilder.AppendLine($"INSERT INTO 'Items' table VALUES ({sqlInsert});");
-                }
-
             SqliteCommand command = connection.CreateCommand();
-            command.CommandText = commandBuilder.ToString();
-            
-            // command.Parameters.AddWithValue("$id", id);
+            foreach (ItemData itemData in itemDatum) 
+                command.ToSqlInsert(mapper.Map<ItemDataSqlite3DTO>(itemData));
+
             return command.ExecuteNonQuery() == itemDatum.Length;
         }
         catch (Exception exception)
@@ -72,5 +61,13 @@ public class SQLite3DAL : DALBase
             logger.Error(exception, string.Empty);
             return false;
         }
+    }
+
+    private string GetSqliteConnection()
+    {
+        var connectionStringArgs = configuration.GetValue<string>("ItemsDataSettings:ConnectionStringArgs");
+        var itemsDbPath = configuration.GetValue<string>("ItemsDataSettings:ItemsDbPath");
+        var connectionString = $"Data Source={itemsDbPath}{(string.IsNullOrWhiteSpace(connectionStringArgs) ? string.Empty : $";{connectionStringArgs}")}";
+        return connectionString;
     }
 }

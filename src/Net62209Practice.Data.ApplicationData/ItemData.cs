@@ -6,7 +6,7 @@ public record ItemData
     public ItemData() { }
 
     /// <example>     ItemData ItemData2 = ItemData1 with { Name = "John" }; </example>
-    public ItemData(Guid Id, string Name, string Description, ItemCategorizationData ItemCategorization)
+    public ItemData(ulong Id, string Name, string Description, ItemCategorizationData ItemCategorization)
         : this()
     {
         this.Id = Id;
@@ -15,13 +15,16 @@ public record ItemData
         this.ItemCategorization = ItemCategorization;
     }
 
-    public Guid Id { get; init; }
+    public ulong Id { get; init; }
     public string Name { get; init; }
     public string Description { get; init; }
     public ItemCategorizationData ItemCategorization { get; init; }
 
-    public void Deconstruct(out Guid Id, out string Name, out string Description, out ItemCategorizationData ItemCategorization)
+    public void Deconstruct(out ulong Id, out string Name, out string Description, out ItemCategorizationData ItemCategorization)
     {
+        //byte[] byteArray = Id.ToByteArray();
+        //Guid guid = Guid.Parse(byteArray.Cast<char>().ToArray());
+
         Id = this.Id;
         Name = this.Name;
         Description = this.Description;

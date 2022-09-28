@@ -21,7 +21,7 @@ public static class HostBuilderExtension
 
     public static ContainerBuilder RegisterIMSServices(this ContainerBuilder containerBuilder)
     {
-        containerBuilder.RegisterModule<BLModule>();
+        containerBuilder.RegisterModule<BLModule>(); /* TODO: Shlomi, This need to be part of the Configuration - need to load Modules from there. */
         return containerBuilder;
     }
 }

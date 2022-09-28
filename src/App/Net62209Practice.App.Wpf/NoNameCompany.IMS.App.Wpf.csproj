@@ -53,4 +53,13 @@
 		<Folder Include="Resources\" />
 	</ItemGroup>
 
+	<Target Name="MyDistClean" AfterTargets="Clean">
+		<ItemGroup>
+			<DistDir Include="$(TargetDir)\Sqlite3\" />
+		</ItemGroup>
+
+		<Message Text="Deleting @(DistDir)" Importance="high" />
+		<RemoveDir Directories="@(DistDir)" ContinueOnError="True" />
+	</Target>
+
 </Project>

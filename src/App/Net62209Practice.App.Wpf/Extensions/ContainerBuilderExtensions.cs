@@ -17,13 +17,13 @@ public static class ContainerBuilderExtensions
                 //Set a global policy by using Faker.DefaultStrictMode
                 .StrictMode(true)
                 //OrderId is deterministic
-                .RuleFor(o => o.Id, f => Guid.NewGuid())
+                .RuleFor(o => o.Id, f => 0ul)
                 .RuleFor(o => o.Name, f => f.Name.JobTitle())
                 .RuleFor(o => o.Description, f => f.Lorem.Sentence())
                 .RuleFor(o => o.ItemCategorization, f =>
                     {
                         ItemCategorizationData itemCategorizationData = new Faker<ItemCategorizationData>()
-                            .RuleFor(o => o.Id, f1 => Guid.NewGuid())
+                            .RuleFor(o => o.Id, f1 => 0ul)
                             .RuleFor(o => o.Name, f2 => f2.Name.JobTitle())
                             .RuleFor(o => o.Description, f3 => f3.Lorem.Sentence()).Generate();
                         return itemCategorizationData;

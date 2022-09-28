@@ -72,6 +72,9 @@ public class SQLite3DALBootstrapper : Module, IStartable
         {
             using SqliteConnection connection = new(itemsDataSettings.ConnectionString);
             connection.Open();
+
+            /* TODO: Shlomi, TBC - create/define tables!! */
+            MakeDataTables(connection);
         }
         catch (Exception exception)
         {
@@ -83,5 +86,18 @@ public class SQLite3DALBootstrapper : Module, IStartable
         }
 
         return true;
+    }
+
+
+    private void MakeDataTables(SqliteConnection connection)
+    {
+        foreach (string dbScript in fileSystem.Directory.EnumerateFiles(Path.Combine(".", "Sqlite3"), "*.sql"))
+        {
+            var readAllLines = fileSystem.File.ReadAllText(dbScript);
+
+            SqliteCommand sqliteCommand = connection.CreateCommand();
+            sqliteCommand.CommandText = readAllLines;
+            var executeNonQuery = sqliteCommand.ExecuteNonQuery();
+        }
     }
 }

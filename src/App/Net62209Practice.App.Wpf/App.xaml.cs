@@ -33,6 +33,7 @@ public partial class App
                 configuration
                     .AddJsonFile($"{appSettingsName}.{jsonFileExtension}", true, reloadOnChange: true)
                     .AddJsonFile($"{appSettingsName}.{hostingContext.HostingEnvironment.EnvironmentName}.{jsonFileExtension}", true, reloadOnChange: true);
+                //.AddEnvironmentVariables();
             })
 
             .AddIMSServices()
