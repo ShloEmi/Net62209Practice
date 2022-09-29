@@ -25,7 +25,7 @@ public class MainWindowViewModel : ViewModelBase
         AddItemsCommand = new RelayCommand<object>(
             count =>
             {
-                var howMuch = int.Parse(count?.ToString() ?? "0");
+                int howMuch = int.Parse(count?.ToString() ?? "0");
                 dataAccessLayer.AddItemsBulk(
                     Enumerable
                         .Range(1, howMuch)

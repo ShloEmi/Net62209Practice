@@ -9,6 +9,6 @@ public class SQLite3ModuleProfile : Profile
 {
     public SQLite3ModuleProfile()
     {
-        CreateMap<ItemData, ItemDataSqlite3DTO>().ReverseMap();
+        //CreateMap<ItemData, ItemDataSqlite3DTO>().ReverseMap();
     }
 }

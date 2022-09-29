@@ -3,6 +3,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using NoNameCompany.IMS.BL.DAL.Framework;
 using NoNameCompany.IMS.BL.DAL.SQLite.V3.DTOs;
+using NoNameCompany.IMS.BL.DAL.SQLite.V3.Settings;
 using NoNameCompany.IMS.Data.ApplicationData;
 using Serilog;
 
@@ -14,6 +15,7 @@ public class SQLite3DAL : DALBase
     private readonly ILogger logger;
     private readonly IMapper mapper;    /* TODO: Shlomi, add auto-wire support! */
     private readonly IConfiguration configuration;
+    private readonly ItemsDataSettings itemsDataSettings = new();
 
 
     /* TODO: Shlomi, connectionString?  */
@@ -22,6 +24,11 @@ public class SQLite3DAL : DALBase
         this.logger = logger;
         this.mapper = mapper;
         this.configuration = configuration;
+
+        configuration
+            .GetSection(nameof(ItemsDataSettings))
+            .Bind(itemsDataSettings);
+
 
         // string str = configuration.GetValue<string>("ItemsDataSettings:ConnectionStringArgs"); /* TODO: Shlomi, Need to learn about .Net6-configuration!!! */
     }
@@ -50,9 +57,8 @@ public class SQLite3DAL : DALBase
             connection.Open();
             
 
-            SqliteCommand command = connection.CreateCommand();
-            foreach (ItemData itemData in itemDatum) 
-                command.ToSqlInsert(mapper.Map<ItemDataSqlite3DTO>(itemData));
+            using SqliteCommand command = connection.CreateCommand();
+            command.ToSqlInsert(mapper, itemDatum);
 
             return command.ExecuteNonQuery() == itemDatum.Length;
         }
@@ -63,11 +69,7 @@ public class SQLite3DAL : DALBase
         }
     }
 
-    private string GetSqliteConnection()
-    {
-        var connectionStringArgs = configuration.GetValue<string>("ItemsDataSettings:ConnectionStringArgs");
-        var itemsDbPath = configuration.GetValue<string>("ItemsDataSettings:ItemsDbPath");
-        var connectionString = $"Data Source={itemsDbPath}{(string.IsNullOrWhiteSpace(connectionStringArgs) ? string.Empty : $";{connectionStringArgs}")}";
-        return connectionString;
-    }
+    private string GetSqliteConnection() =>
+        $"Data Source={itemsDataSettings.ItemsDbPath}" +
+        $"{(string.IsNullOrWhiteSpace(itemsDataSettings.ConnectionStringArgs) ? string.Empty : $";{itemsDataSettings.ConnectionStringArgs}")}";
 }

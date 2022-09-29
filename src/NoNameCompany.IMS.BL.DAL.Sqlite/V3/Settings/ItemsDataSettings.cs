@@ -11,7 +11,7 @@ public sealed class ItemsDataSettings
 
 
     public string ConnectionString => 
-        $"Data Source={ItemsDbPath}{(string.IsNullOrWhiteSpace(ConnectionStringArgs) ? $";{ConnectionStringArgs}" : string.Empty)}";
+        $"Data Source={ItemsDbPath}{(!string.IsNullOrWhiteSpace(ConnectionStringArgs) ? $";{ConnectionStringArgs}" : string.Empty)}";
 
 
     public string Version { get; set; }

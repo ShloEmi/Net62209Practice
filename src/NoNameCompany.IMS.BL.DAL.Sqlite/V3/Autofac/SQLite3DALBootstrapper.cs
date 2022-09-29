@@ -43,16 +43,13 @@ public class SQLite3DALBootstrapper : Module, IStartable
 
     private bool CreateTablesIfNeeded()
     {
-        /* TODO: Shlomi, move me to right place */
-        //ItemsDataSettingsDTO itemsDataSettings
-        //= configuration
-        //.GetSection(DataLayerSectionName)
-        //.Get<ItemsDataSettingsDTO>() ?? new ItemsDataSettingsDTO(SQLite3DAL.Defaults.ItemsDbConnectionString); /* TODO: Shlomi, Get<ItemsDataSettingsDTO not working! fix this... */
-        
+        var newDB = false;
         try
         {
             if (!fileSystem.File.Exists(itemsDataSettings.ItemsDbPath))
             {
+                newDB = true;
+
                 fileSystem.Directory.CreateDirectory(fileSystem.Path.GetDirectoryName(itemsDataSettings.ItemsDbPath));
 
                 using Stream stream = fileSystem.File.Create(itemsDataSettings.ItemsDbPath);
@@ -73,8 +70,8 @@ public class SQLite3DALBootstrapper : Module, IStartable
             using SqliteConnection connection = new(itemsDataSettings.ConnectionString);
             connection.Open();
 
-            /* TODO: Shlomi, TBC - create/define tables!! */
-            MakeDataTables(connection);
+            if (newDB) 
+                MakeDataTables(connection);
         }
         catch (Exception exception)
         {
@@ -93,11 +90,11 @@ public class SQLite3DALBootstrapper : Module, IStartable
     {
         foreach (string dbScript in fileSystem.Directory.EnumerateFiles(Path.Combine(".", "Sqlite3"), "*.sql"))
         {
-            var readAllLines = fileSystem.File.ReadAllText(dbScript);
+            string? readAllLines = fileSystem.File.ReadAllText(dbScript);
 
-            SqliteCommand sqliteCommand = connection.CreateCommand();
+            using SqliteCommand sqliteCommand = connection.CreateCommand();
             sqliteCommand.CommandText = readAllLines;
-            var executeNonQuery = sqliteCommand.ExecuteNonQuery();
+            sqliteCommand.ExecuteNonQuery();
         }
     }
 }
