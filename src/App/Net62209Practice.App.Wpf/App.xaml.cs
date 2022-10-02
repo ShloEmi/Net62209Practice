@@ -45,8 +45,14 @@ public partial class App
                 builder.RegisterItemDataProvider();
 
                 /* TODO: Shlomi, move me to NoNameCompany.IMS.Wpf.Module */
-                builder.RegisterType<MainWindowViewModel>();
-                builder.RegisterType<MainWindow>();
+                builder.RegisterType<MainWindowViewModel>()
+                    .AsSelf()
+                    .As<IStartable>()
+                    .As<IDisposable>()
+
+                    .SingleInstance();
+
+                builder.RegisterType<MainWindow>().AsSelf();
             });
 
         try

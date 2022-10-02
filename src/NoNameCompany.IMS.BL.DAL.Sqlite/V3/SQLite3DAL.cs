@@ -6,6 +6,7 @@ using NoNameCompany.IMS.BL.DAL.SQLite.V3.DTOs;
 using NoNameCompany.IMS.BL.DAL.SQLite.V3.Settings;
 using NoNameCompany.IMS.Data.ApplicationData;
 using Serilog;
+using System.Reactive.Subjects;
 
 namespace NoNameCompany.IMS.BL.DAL.SQLite.V3;
 
@@ -28,7 +29,9 @@ public class SQLite3DAL : DALBase
         configuration
             .GetSection(nameof(ItemsDataSettings))
             .Bind(itemsDataSettings);
+        
 
+        ItemsChanged = itemsChanged = new Subject<IEnumerable<ItemData>>();
 
         // string str = configuration.GetValue<string>("ItemsDataSettings:ConnectionStringArgs"); /* TODO: Shlomi, Need to learn about .Net6-configuration!!! */
     }
@@ -59,8 +62,13 @@ public class SQLite3DAL : DALBase
 
             using SqliteCommand command = connection.CreateCommand();
             command.ToSqlInsert(mapper, itemDatum);
+            
+            if (command.ExecuteNonQuery() != itemDatum.Length)  /* TODO: Shlomi, use transaction + rollback! */
+                return false;
 
-            return command.ExecuteNonQuery() == itemDatum.Length;
+            itemsChanged.OnNext(itemDatum); 
+            return true;
+
         }
         catch (Exception exception)
         {
@@ -72,4 +80,8 @@ public class SQLite3DAL : DALBase
     private string GetSqliteConnection() =>
         $"Data Source={itemsDataSettings.ItemsDbPath}" +
         $"{(string.IsNullOrWhiteSpace(itemsDataSettings.ConnectionStringArgs) ? string.Empty : $";{itemsDataSettings.ConnectionStringArgs}")}";
+
+
+    private readonly ISubject<IEnumerable<ItemData>> itemsChanged;
+    public override IObservable<IEnumerable<ItemData>> ItemsChanged { get; }
 }

@@ -6,4 +6,6 @@ public interface IDAL
 {
     bool CanAddItems();
     bool AddItemsBulk(IEnumerable<ItemData>? items);
+
+    IObservable<IEnumerable<ItemData>> ItemsChanged { get; }
 }

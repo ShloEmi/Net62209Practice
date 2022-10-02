@@ -1,6 +1,6 @@
-﻿using System.Windows;
-using ControlzEx.Theming;
+﻿using ControlzEx.Theming;
 using NoNameCompany.IMS.App.Wpf.ViewModels;
+using System.Windows;
 
 namespace NoNameCompany.IMS.App.Wpf.Views;
 
