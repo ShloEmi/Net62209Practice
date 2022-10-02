@@ -2,6 +2,7 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using NoNameCompany.IMS.BL.DAL.Framework;
+using NoNameCompany.IMS.BL.DAL.Interfaces;
 using NoNameCompany.IMS.BL.DAL.SQLite.V3.DTOs;
 using NoNameCompany.IMS.BL.DAL.SQLite.V3.Settings;
 using NoNameCompany.IMS.Data.ApplicationData;
@@ -31,7 +32,7 @@ public class SQLite3DAL : DALBase
             .Bind(itemsDataSettings);
         
 
-        ItemsChanged = itemsChanged = new Subject<IEnumerable<ItemData>>();
+        ItemsChanged = itemsChanged = new Subject<IEnumerable<ItemChanged>>();
 
         // string str = configuration.GetValue<string>("ItemsDataSettings:ConnectionStringArgs"); /* TODO: Shlomi, Need to learn about .Net6-configuration!!! */
     }
@@ -66,7 +67,8 @@ public class SQLite3DAL : DALBase
             if (command.ExecuteNonQuery() != itemDatum.Length)  /* TODO: Shlomi, use transaction + rollback! */
                 return false;
 
-            itemsChanged.OnNext(itemDatum); 
+            
+            itemsChanged.OnNext(itemDatum.Select(data => new ItemChanged(data, ChangeDescriptions.added)));
             return true;
 
         }
@@ -82,6 +84,6 @@ public class SQLite3DAL : DALBase
         $"{(string.IsNullOrWhiteSpace(itemsDataSettings.ConnectionStringArgs) ? string.Empty : $";{itemsDataSettings.ConnectionStringArgs}")}";
 
 
-    private readonly ISubject<IEnumerable<ItemData>> itemsChanged;
-    public override IObservable<IEnumerable<ItemData>> ItemsChanged { get; }
+    private readonly ISubject<IEnumerable<ItemChanged>> itemsChanged;
+    public override IObservable<IEnumerable<ItemChanged>> ItemsChanged { get; }
 }

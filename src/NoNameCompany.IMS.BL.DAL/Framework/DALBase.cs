@@ -11,5 +11,5 @@ public abstract class DALBase : IDAL
     public abstract bool CanAddItems();
     public abstract bool AddItemsBulk(IEnumerable<ItemData>? items);
 
-    public abstract IObservable<IEnumerable<ItemData>> ItemsChanged { get; }
+    public abstract IObservable<IEnumerable<ItemChanged>> ItemsChanged { get; }
 }

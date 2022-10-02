@@ -12,8 +12,10 @@ using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace NoNameCompany.IMS.App.Wpf.ViewModels;
 
@@ -47,13 +49,15 @@ public class MainWindowViewModel : ViewModelBase, IStartable, IDisposable
 
         themeSelectedItem = availableThemes.First();
     }
-    
-    public void Start() => 
+
+    public void Start()
+    {
         disposables.Add(
             dataAccessLayer.ItemsChanged
                 .ObserveOnDispatcher()
                 .Subscribe(OnItemsChanged)
         );
+    }
 
     public void Dispose() => 
         disposables.Clear();
@@ -71,8 +75,77 @@ public class MainWindowViewModel : ViewModelBase, IStartable, IDisposable
         );
     }
 
-    private void OnItemsChanged(IEnumerable<ItemData> datum)
+    private void OnItemsChanged(IEnumerable<ItemChanged> datum)
     {
+#if false
+
+        foreach (ItemChanged itemChanged in datum)
+        {
+            Dispatcher.CurrentDispatcher.InvokeAsync(
+                /*async*/ () =>
+                {
+                    switch (itemChanged.ChangeDescription)
+                    {
+                        case ChangeDescriptions.added:
+                            OnItemAdded(itemChanged);
+                            break;
+                        case ChangeDescriptions.removed:
+                            OnItemRemoved(itemChanged);
+                            break;
+                        case ChangeDescriptions.updated:
+                            OnItemUpdated(itemChanged);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                });
+        }
+
+#else
+
+        Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Inactive, 
+            () =>
+            {
+                //if(lockedObject.Contains("Items");
+                // lockedObject.Add("Items");
+                // {...}
+                // lockedObject.Remove("Items");
+
+                foreach (ItemChanged itemChanged in datum)
+                {
+                    switch (itemChanged.ChangeDescription)
+                    {
+                        case ChangeDescriptions.added:
+                            OnItemAdded(itemChanged);
+                            break;
+                        case ChangeDescriptions.removed:
+                            OnItemRemoved(itemChanged);
+                            break;
+                        case ChangeDescriptions.updated:
+                            OnItemUpdated(itemChanged);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+
+            });
+#endif
+    }
+
+    private void OnItemUpdated(ItemChanged itemChanged)
+    {
+        Task.Delay(30000).Wait(); /* TODO: Shlomi, changing this will take ~1 RL month */
+    }
+
+    private void OnItemRemoved(ItemChanged itemChanged)
+    {
+        Task.Delay(1000).Wait();
+    }
+
+    private void OnItemAdded(ItemChanged itemChanged)
+    {
+        Task.Delay(1000).Wait();
     }
 
 
