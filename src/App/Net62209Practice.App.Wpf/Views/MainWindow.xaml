@@ -57,7 +57,7 @@
         </ToolBarTray>
         <TextBox AcceptsReturn="True" />
 
-        <WrapPanel>
+        <WrapPanel DockPanel.Dock="Top">
             <!--  DockPanel.Dock=CENTER  -->
             <Button
                 Command="{Binding AddItemsCommand}"
@@ -73,6 +73,9 @@
                 Content="Add 100 item" />
         </WrapPanel>
 
-    </DockPanel>
+        <WrapPanel DockPanel.Dock="Top">
+            <DataGrid ItemsSource="{Binding ItemsDataSource}" />
+        </WrapPanel>
 
+    </DockPanel>
 </mah:MetroWindow>
