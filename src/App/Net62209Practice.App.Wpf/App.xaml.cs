@@ -9,6 +9,7 @@ using NoNameCompany.IMS.BL.Bootstrapping.Extensions;
 using System;
 using System.Linq;
 using System.Windows;
+using NoNameCompany.IMS.App.Wpf.Controls;
 
 namespace NoNameCompany.IMS.App.Wpf;
 
@@ -45,12 +46,12 @@ public partial class App
                 builder.RegisterItemDataProvider();
 
                 /* TODO: Shlomi, move me to NoNameCompany.IMS.Wpf.Module */
-                builder.RegisterType<MainWindowViewModel>()
+                builder.RegisterType<ItemsDataViewModel>()
                     .AsSelf()
                     .As<IStartable>()
                     .As<IDisposable>()
-
                     .SingleInstance();
+                builder.RegisterType<ItemsDataUserControl>().AsSelf();
 
                 builder.RegisterType<MainWindow>().AsSelf();
             });

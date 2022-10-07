@@ -1,0 +1,34 @@
+﻿<UserControl
+    x:Class="NoNameCompany.IMS.App.Wpf.Controls.ItemsDataUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:NoNameCompany.IMS.App.Wpf.ViewModels"
+    d:DataContext="{d:DesignInstance {x:Type viewModels:ItemsDataViewModel},
+                                     IsDesignTimeCreatable=True}"
+    mc:Ignorable="d">
+
+    <DockPanel>
+        <WrapPanel DockPanel.Dock="Top">
+            <!--  DockPanel.Dock=CENTER  -->
+            <Button
+                Command="{Binding AddItemsCommand}"
+                CommandParameter="1"
+                Content="Add 1 item" />
+            <Button
+                Command="{Binding AddItemsCommand}"
+                CommandParameter="10"
+                Content="Add 10 item" />
+            <Button
+                Command="{Binding AddItemsCommand}"
+                CommandParameter="100"
+                Content="Add 100 item" />
+        </WrapPanel>
+
+        <WrapPanel DockPanel.Dock="Top">
+            <DataGrid ItemsSource="{Binding ItemsDataSource}" />
+        </WrapPanel>
+
+    </DockPanel>
+</UserControl>

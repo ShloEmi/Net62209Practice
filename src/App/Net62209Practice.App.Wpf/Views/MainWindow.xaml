@@ -8,10 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:NoNameCompany.IMS.App.Wpf.ViewModels"
     Title="MainWindow"
-    Width="800"
-    Height="450"
-    d:DataContext="{d:DesignInstance {x:Type viewModels:MainWindowViewModel},
-                                     IsDesignTimeCreatable=True}"
+    MinWidth="1280"
+    MinHeight="720"
     mc:Ignorable="d">
 
     <mah:MetroWindow.LeftWindowCommands>
@@ -47,35 +45,9 @@
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
 
-
     <DockPanel>
-        <ToolBarTray DockPanel.Dock="Top">
-            <ToolBar>
-                <Label>Theme</Label>
-                <ComboBox ItemsSource="{Binding AvailableThemes}" SelectedValue="{Binding ThemeSelectedItem, Mode=TwoWay}" />
-            </ToolBar>
-        </ToolBarTray>
-        <TextBox AcceptsReturn="True" />
-
-        <WrapPanel DockPanel.Dock="Top">
-            <!--  DockPanel.Dock=CENTER  -->
-            <Button
-                Command="{Binding AddItemsCommand}"
-                CommandParameter="1"
-                Content="Add 1 item" />
-            <Button
-                Command="{Binding AddItemsCommand}"
-                CommandParameter="10"
-                Content="Add 10 item" />
-            <Button
-                Command="{Binding AddItemsCommand}"
-                CommandParameter="100"
-                Content="Add 100 item" />
-        </WrapPanel>
-
-        <WrapPanel DockPanel.Dock="Top">
-            <DataGrid ItemsSource="{Binding ItemsDataSource}" />
-        </WrapPanel>
-
+        <!--<ContentControl Content="{Binding SelectedThemeViewModel}" DockPanel.Dock="Top" />-->
+        <ContentControl Content="{Binding ItemsDataViewModel}" DockPanel.Dock="Top" />
     </DockPanel>
+
 </mah:MetroWindow>

@@ -50,9 +50,7 @@
 
 	<ItemGroup>
 		<Folder Include="Command\" />
-		<Folder Include="Controls\" />
 		<Folder Include="Converter\" />
-		<Folder Include="Resources\" />
 	</ItemGroup>
 
 	<Target Name="MyDistClean" AfterTargets="Clean">

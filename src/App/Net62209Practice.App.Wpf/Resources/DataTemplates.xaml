@@ -1,0 +1,17 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:markup="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:NoNameCompany.IMS.App.Wpf.Controls"
+    xmlns:viewModels="clr-namespace:NoNameCompany.IMS.App.Wpf.ViewModels">
+
+     <!-- TODO: Shlomi, Cant be auto-done with Auto-wire!-->    
+
+     <DataTemplate DataType="{markup:Type viewModels:ItemsDataViewModel}">
+        <controls:ItemsDataUserControl BorderBrush="Aqua"/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{markup:Type viewModels:SelectedThemeViewModel}">
+        <controls:SelectedThemeUserControl BorderBrush="Blue" />
+    </DataTemplate>
+
+</ResourceDictionary>

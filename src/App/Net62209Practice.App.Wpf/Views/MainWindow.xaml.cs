@@ -6,11 +6,11 @@ namespace NoNameCompany.IMS.App.Wpf.Views;
 
 public partial class MainWindow
 {
-    public MainWindow(MainWindowViewModel mainWindowViewModel)
+    public MainWindow(ItemsDataViewModel itemsDataViewModel)
     {
         InitializeComponent();
 
-        DataContext = mainWindowViewModel;
+        DataContext = itemsDataViewModel;
 
         ThemeManager.Current.ThemeSyncMode = ThemeSyncMode.SyncWithAppMode;
         ThemeManager.Current.SyncTheme();

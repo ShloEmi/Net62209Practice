@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Bogus;
 using CommunityToolkit.Mvvm.Input;
-using ControlzEx.Theming;
 using NoNameCompany.IMS.BL.DAL.Interfaces;
 using NoNameCompany.IMS.Data.ApplicationData;
 using Serilog;
@@ -11,23 +10,20 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Windows;
 using System.Windows.Input;
 
 namespace NoNameCompany.IMS.App.Wpf.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase, IStartable, IDisposable
+public class ItemsDataViewModel : ViewModelBase, IStartable, IDisposable
 {
     // ReSharper disable once CollectionNeverQueried.Local
     private readonly CompositeDisposable disposables = new();
 
     private readonly IDAL dataAccessLayer;
     private readonly ILogger logger;
-    private string themeSelectedItem;
-    private ObservableCollection<string> availableThemes = new();
 
 
-    public MainWindowViewModel(IDAL dataAccessLayer, ILogger logger, Faker<ItemData> itemDataProvider)
+    public ItemsDataViewModel(IDAL dataAccessLayer, ILogger logger, Faker<ItemData> itemDataProvider)
     {
         logger.Information("called");
 
@@ -38,13 +34,6 @@ public class MainWindowViewModel : ViewModelBase, IStartable, IDisposable
         AddItemsCommand = new RelayCommand<object>(
             count => { ExecuteAddItemsCommand(itemDataProvider, count); },
             _ => dataAccessLayer.CanAddItems());
-
-
-        /* TODO: Shlomi, should be in configuration */
-        availableThemes.Add("light.blue");
-        availableThemes.Add("dark.blue");
-
-        themeSelectedItem = availableThemes.First();
     }
 
     public void Start()
@@ -104,23 +93,6 @@ public class MainWindowViewModel : ViewModelBase, IStartable, IDisposable
                     nameof(ItemsDataSource)); /* TODO: Shlomi, this can be more easily done using Dynamic-Data: https://github.com/reactivemarbles/DynamicData#dynamic-data */
             }
         }
-    }
-
-
-    public string ThemeSelectedItem
-    {
-        get => themeSelectedItem;
-        set
-        {
-            if (SetField(ref themeSelectedItem, value))
-                ThemeManager.Current.ChangeTheme(Application.Current, themeSelectedItem);
-        }
-    }
-    
-    public ObservableCollection<string> AvailableThemes
-    {
-        get => availableThemes;
-        set => SetField(ref availableThemes, value);
     }
 
 
