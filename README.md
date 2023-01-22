@@ -1,4 +1,4 @@
 # Net62209Practice
 Practice Net6 by real example
 
-[![trophy]
+[![trophy](https://github-profile-trophy.vercel.app/?username=ShloEmi)](https://github.com/ShloEmi/)
